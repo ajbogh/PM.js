@@ -113,3 +113,16 @@ The PM.preloadUrl function can be called upon page instantiation ( $(document).r
 The PM.postMessage() function can be called immediately after the PM.preloadUrl() function without waiting.
 
     PM.postMessage("testhandle", "test", {my:"test", test:"is good"}); //just send data one-way. Url preloaded.
+
+Considerations
+--------------
+
+1. What happens if the iframe doesn't load? -- An exception will be thrown from PM.postMessage after a few seconds with the message "PM: "+handle+" timed out for action "+action+". Data not sent.".
+
+2. What if PM.js is included twice or if I say "new PM()"? -- PM is designed to reuse existing PMs.
+
+3. What happens when an iframe loads? -- The (hidden) iframe renders the page, the PM object is instantiated and notices that it's within a PM iframe, the PM object then sends a "ready" response back to the parent website, the parent website hears the response and sets the handle to a "ready" state, the parent website can now send the data requests.
+
+4. What about IE, I hear it works differently with postMessage? -- I know. It's been handled. I'm not even happy about it since Microsoft's website even says IE handles objects when it doesn't. Grunble grumble.
+
+5. What browsers does this work with? -- The question should be what doesn't this work with? IE7 and below is not compatible. Most every up-to-date browser is compatible, including Firefox, Chrome, Safari, Android browsers, iOS, IE8+, Opera, etc.
