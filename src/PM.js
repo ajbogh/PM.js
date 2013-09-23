@@ -7,7 +7,7 @@
  * @version  0.1 (2013-09-17)
  * @requires jQuery
  */
-var PM = new (function ($) {
+var PM = (function ($) {
 	//check for existing PM
 	if(PM){
 		//PM already exists, just return it.
@@ -76,12 +76,12 @@ var PM = new (function ($) {
 
 		//execute the listener by name (action value)
 		var action = oeData.action;
-		if(typeof this._registeredListeners[action] != "function"){
+		if(typeof this._registeredListeners[action] !== "function"){
 			return false;
 		}
 
 		//the action is there an it's a function!
-		if(typeof oeData == "string"){
+		if(typeof oeData === "string"){
 			oeData = $.parseJSON(oeData); //will return a string, int, or object
 		}
 		var result = this._registeredListeners[action].call(this, oeData, e);
@@ -96,12 +96,12 @@ var PM = new (function ($) {
 
 	this._handlePMCallback = function(oeData, e, result){
 		//fix result
-		if(typeof result == "undefined"){ result = null; }
+		if(typeof result === "undefined"){ result = null; }
 
 		var pmData = {
 			action: oeData.callback,
 			data: this.fixPMData(result)
-		}
+		};
 		if(oeData.deleteCallback){
 			pmData.deleteCallback = true;
 		}
@@ -110,7 +110,7 @@ var PM = new (function ($) {
 
 		e.originalEvent.source.postMessage(pmData, origin);
 		return;
-	}
+	};
 
 	/**
 	 * Loads the ready function. Ready is called when the iframe has completed loading.
@@ -144,7 +144,7 @@ var PM = new (function ($) {
 	 */
 	this.addAuthorizedUrl = function(url){
 		//overload for addAuthorizedUrls
-		if(Object.prototype.toString.call(url) == '[object Array]'){
+		if(Object.prototype.toString.call(url) === '[object Array]'){
 			this.addAuthorizedUrls(url);
 			return;
 		}
@@ -182,13 +182,13 @@ var PM = new (function ($) {
 	};
 	this.clearAuthorizedUrls = function(){
 		this.authorizedUrls = [];
-	}
+	};
 	this.removeAuthorizedUrl = function(url){
 		if(!this.isAuthorizedUrl(url)){
 			return true; //already not authorized
 		}
 		this.authorizedUrls.splice(this.authorizedUrls.indexOf(url), 1);
-	}
+	};
 
 	/**
 	 * Checks whether a handler has been fully loaded.
@@ -276,7 +276,7 @@ var PM = new (function ($) {
 		if(hash === ""){
 			hash = "#"+actionHash;
 		}else{ //append a hash to the existing hash
-			hash += "&"+actionHash
+			hash += "&"+actionHash;
 		}
 		return parsedUrl.protocol+"//"+domainPart+parsedUrl.pathname+parsedUrl.search+hash;
 	};
@@ -353,7 +353,7 @@ var PM = new (function ($) {
 				throw new Error("PM: "+handle+" timed out for action "+action+". Data not sent.");
 			}else if(self.isHandlerReady(handle)){
 				clearInterval(interval);
-				self._postMessage(handle, action, data, callbackAction)
+				self._postMessage(handle, action, data, callbackAction);
 			}
 		}, this._intervalTimeout);
 	};
@@ -372,7 +372,7 @@ var PM = new (function ($) {
 			"handle":handle
 		};
 		if(callbackAction){
-			if(typeof callbackAction == "function"){
+			if(typeof callbackAction === "function"){
 				//create function for callback, set option to delete
 				callbackActionName = "PM_"+(new Date()).getTime();
 				this.registerListener(callbackActionName, callbackAction);
@@ -384,8 +384,8 @@ var PM = new (function ($) {
 			}
 		}
 		var parsedIframe = this.parseUrl(this._iframes[handle].src), 
-		    domainPart = parsedIframe.hostname+(parsedIframe.port?":"+parsedIframe.port:""),
-		    origin = parsedIframe.protocol+"//"+domainPart;
+			domainPart = parsedIframe.hostname+(parsedIframe.port?":"+parsedIframe.port:""),
+			origin = parsedIframe.protocol+"//"+domainPart;
 
 		pmData = this.fixPMData(pmData);
 		this._handlers[handle].postMessage(pmData, origin);
@@ -402,7 +402,7 @@ var PM = new (function ($) {
 		}else{
 			return data;
 		}
-	}
+	};
 
 	/**
 	 * Adds a listener function to the system. The name parameter should be a function name
@@ -421,7 +421,7 @@ var PM = new (function ($) {
 		return this;
 	};
 	this.unregisterListener = function(actionName){
-		if(typeof this._registeredListeners[actionName] == "undefined"){
+		if(typeof this._registeredListeners[actionName] === "undefined"){
 			return this;
 		}
 		delete this._registeredListeners[actionName];
@@ -453,7 +453,7 @@ var PM = new (function ($) {
 		//cleans up all iframes
 		if(!this._handlers[handle]){ return false; }
 		
-		var handler = this._handlers[handle]
+		var handler = this._handlers[handle];
 		return this.removePMIframe(handler);
 	};
 
@@ -485,7 +485,7 @@ var PM = new (function ($) {
 		//split into array by & or #
 		var hashArr = hash.split(/[#&]+/);
 		for(var i = 0; i<hashArr.length; i++){
-			if(typeof hashArr[i] == "undefined" || hashArr[i] === ""){ continue; }
+			if(typeof hashArr[i] === "undefined" || hashArr[i] === ""){ continue; }
 			var currentHashArr = hashArr[i].split('=');
 			this.hashObj[currentHashArr[0]] = (currentHashArr.length > 1?decodeURIComponent(currentHashArr[1]):decodeURIComponent(currentHashArr[0]));
 			try{ //try to parse a JSON object, if it fails then it must be text.
@@ -498,7 +498,7 @@ var PM = new (function ($) {
 		delete this.hashArr;
 
 		this.keyExists = function(key){
-			return (typeof this.hashObj[key] != "undefined");
+			return (typeof this.hashObj[key] !== "undefined");
 		};
 		this.get = function(key) {
 			return this.hashObj[key];
