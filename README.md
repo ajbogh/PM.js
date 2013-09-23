@@ -29,7 +29,7 @@ signifying that the security mechanism can be eliminated to allow all postMessag
 Inspiration
 -----------
 
-You may have heard about easyXDM by now, if you've been googling for an answer to postMessage or cross-domain
+You may have heard about easyXDM by now if you've been googling for an answer to postMessage or cross-domain
 communication. 
 
 I developed this solution as a way to memorialize the knowledge that I gained as the lead developer of Disney's 
