@@ -53,7 +53,6 @@ var PM = (function ($) {
 		$(window).on("message",function(e){
 			if (self.isAuthorizedUrl(e.originalEvent.origin)){
 				var oeData = e.originalEvent.data;
-				console.log(oeData);
 				self._handlePostMessageRequest(oeData, e);
 			}else{
 				throw new Error(e.originalEvent.origin+" is not an authorized URL.");
