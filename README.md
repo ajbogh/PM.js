@@ -123,6 +123,6 @@ Considerations
 
 3. What happens when an iframe loads? -- The (hidden) iframe renders the page, the PM object is instantiated and notices that it's within a PM iframe, the PM object then sends a "ready" response back to the parent website, the parent website hears the response and sets the handle to a "ready" state, the parent website can now send the data requests.
 
-4. What about IE, I hear it works differently with postMessage? -- I know. It's been handled. I'm not even happy about it since Microsoft's website even says IE handles objects when it doesn't. Grunble grumble.
+4. What about IE, I hear it works differently with postMessage? -- I know. It's been handled. I'm not even happy about it since Microsoft's website even says IE handles objects when it doesn't. Grumble grumble.
 
 5. What browsers does this work with? -- The question should be what doesn't this work with? IE7 and below is not compatible. Most every up-to-date browser is compatible, including Firefox, Chrome, Safari, Android browsers, iOS, IE8+, Opera, etc.
