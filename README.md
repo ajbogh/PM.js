@@ -104,7 +104,7 @@ Let's look at the parameters a little.
 
     PM.postMessage("testhandle", "test", {my:"test", test:"is good"}, function(data){ console.log(data); });
 
-- "http://otherdomain.com/PMWebpage.html": (Optional*) A webpage to create an iframe for and post a message to. This is only required upon first calling postMessage for that domain or unless you call the PM.preloadUrl() function.
+- "http://otherdomain.com/PMWebpage.html": (Optional*) A webpage to create an iframe for and post a message to. *This is only required upon first calling postMessage for that domain or unless you call the PM.preloadUrl() function.
 
 The PM.preloadUrl function can be called upon page instantiation ( $(document).ready() ) to allow PM.js to create the iframes and initialize the other webpage to allow instantaneous postMessage requests once the iframe is fully loaded.
 
