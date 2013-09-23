@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../src/PM.js"></script>
+	<script>
+		PM.addAuthorizedUrl([
+			"http://localhost",
+			"http://mydomain.com"
+		]);
+		PM.registerListener("test", function(data){
+			console.log("got test");
+			console.log(data);
+		}).registerListener("othertest", function(data){
+			console.log("in othertest");
+			console.log(data);
+		});
+	</script>
+</head>
+<body>
+
+
+
+</body>
+</html>
