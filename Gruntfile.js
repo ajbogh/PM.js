@@ -19,31 +19,32 @@ module.exports = function(grunt) {
 	jshint: {
 	files: ['src/*.js', 'grunt.js'],
 	options: {
-	// options here to override JSHint defaults
-	curly: true,
-	eqeqeq: true,
-	immed: true,
-	latedef: true,
-	newcap: true,
-	noarg: true,
-	sub: true,
-	undef: false,
-	boss: true,
-	eqnull: true,
-	browser: true,
-	unused: false
+		// options here to override JSHint defaults
+		curly: true,
+		eqeqeq: true,
+		immed: true,
+		latedef: true,
+		newcap: true,
+		noarg: true,
+		sub: true,
+		undef: false,
+		boss: true,
+		eqnull: true,
+		browser: true,
+		unused: false,
+		supernew: true
 	},
 	globals: {
-	require: true,
-	define: true,
-	requirejs: true,
-	describe: true,
-	expect: true,
-	it: true,
-	jQuery: true,
-	console: true,
-	module: true,
-	document: true
+		require: true,
+		define: true,
+		requirejs: true,
+		describe: true,
+		expect: true,
+		it: true,
+		jQuery: true,
+		console: true,
+		module: true,
+		document: true
 	}
 	},
 	//watch: {
