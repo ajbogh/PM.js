@@ -7,7 +7,7 @@
  * @version  0.1 (2013-09-17)
  * @requires jQuery
  */
-var PM = (new function ($) {
+var PM = new (function ($) {
 	//check for existing PM
 	if(PM){
 		//PM already exists, just return it.
