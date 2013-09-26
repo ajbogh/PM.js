@@ -156,6 +156,7 @@ var PM = new (function ($) {
 			//Only add the protocol, domain and port. That's all we care about.
 			this.authorizedUrls.push(urlObj.protocol+"//"+domainPart);	
 		}
+		return this;
 	};
 	/**
 	 * Adds an array of authorized URLs.
@@ -170,6 +171,7 @@ var PM = new (function ($) {
 		for(i in urlArray){
 			this.addAuthorizedUrl(urlArray[i]);
 		}
+		return this;
 	};
 	/**
 	 * Checks if a particular url is within the authorizedUrls array.
@@ -181,12 +183,14 @@ var PM = new (function ($) {
 	};
 	this.clearAuthorizedUrls = function(){
 		this.authorizedUrls = [];
+		return this;
 	};
 	this.removeAuthorizedUrl = function(url){
 		if(!this.isAuthorizedUrl(url)){
 			return true; //already not authorized
 		}
 		this.authorizedUrls.splice(this.authorizedUrls.indexOf(url), 1);
+		return this;
 	};
 
 	/**

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OtherDomain.com</title>
+	<script type="text/javascript" src="../../build/PM.min.js"></script>
+	<script>
+		/* This webpage hosted at http://otherdomain.com/sample/otherdomain/index.html
+		 * will host the "responder page" for the parent website. It essentially acts like a
+		 * pure javascript API for authorized domains.
+		 * 
+		 * The parent website uses PM.js to create a hidden iframe to this page. This 
+		 * page authorizes the domain, tells the parent that it's ready for communication, 
+		 * then responds to requests.
+		 */
+		PM.addAuthorizedUrl([
+			"http://localhost", //for testing you can also use localhost
+			"http://mydomain.com"
+		]).registerListener("testaction", function(data){
+			// This registers an action called "testaction"
+			// The parent website would call this action, such as an API.
+			console.log("got testaction");
+			console.log(data);
+		}).registerListener("othertest", function(data){
+			// This registers a different function called "othertest".
+			console.log("in othertest");
+			console.log(data);
+		}).registerListener("returntest", function(data){
+			// This registers a different function called "returntest".
+			// This function returns a string with the value "returntest success"
+			console.log("in returntest");
+			console.log(data);
+			return "returntest success";
+		});
+	</script>
+</head>
+<body>
+	
+
+</body>
+</html>

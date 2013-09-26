@@ -123,7 +123,6 @@ describe("PM", function () {
 			console.log("within mytest");
 		});
 		obj.postMessage("testhandle", "test", {my:"test", test:"is good"}, "mytest", "http://otherdomain.com/PM/tests/TestPMWebpage.html");
-		
 	});	
 });
 
