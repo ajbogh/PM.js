@@ -1,13 +1,12 @@
 /**
  * A postMessage handler that can be implemented on 2 separate websites within 2 different domains (or more).
- * @param  {jquery} $
  * @return {object} PM
  * @constructor - self instantiating
  * @author   Allan Bogh (ajbogh@allanbogh.com)
  * @version  0.1 (2013-09-17)
  * @requires jQuery
  */
-var PM = new (function ($) {
+var PM = new (function () {
 	//check for existing PM
 	if(PM){
 		//PM already exists, just return it.
@@ -32,7 +31,7 @@ var PM = new (function ($) {
 		var hash = new this.Hash();
 		var self = this;
 		if(hash.keyExists("action") && hash.get("action") === "postMessage"){
-			$(window).on("load", function(){
+			this.addEventListener(window, "load", function(){
 				//pass back the ready state
 				if(hash.keyExists("referrer")){
 					var referrer = hash.get("referrer");
@@ -50,12 +49,12 @@ var PM = new (function ($) {
 	 */
 	this._createListener = function () {
 		var self = this;
-		$(window).on("message",function(e){
-			if (self.isAuthorizedUrl(e.originalEvent.origin)){
-				var oeData = e.originalEvent.data;
+		this.addEventListener(window, "message", function(e){
+			if (self.isAuthorizedUrl(e.origin)){
+				var oeData = e.data;
 				self._handlePostMessageRequest(oeData, e);
 			}else{
-				throw new Error(e.originalEvent.origin+" is not an authorized URL.");
+				throw new Error(e.origin+" is not an authorized URL.");
 			}
 		});
 	};
@@ -105,9 +104,9 @@ var PM = new (function ($) {
 			pmData.deleteCallback = true;
 		}
 		
-		var origin = e.originalEvent.origin;
+		var origin = e.origin;
 
-		e.originalEvent.source.postMessage(pmData, origin);
+		e.source.postMessage(pmData, origin);
 		return;
 	};
 
@@ -121,7 +120,7 @@ var PM = new (function ($) {
 		this.registerListener("ready", function(data, e){
 			//sets a "pmReady" variable on the iframe.
 			//the act of having a handle in this object means that the source is now ready.
-			this._handlers[data.handle] = e.originalEvent.source;
+			this._handlers[data.handle] = e.source;
 		});
 	};
 
@@ -401,7 +400,7 @@ var PM = new (function ($) {
 	 */
 	this.fixPMData = function(data){
 		if(document.documentMode && document.documentMode < 10){
-			data = this.toJSON(data);
+			data = JSON.stringify(data); //IE can use JSON object.
 		}else{
 			return data;
 		}
@@ -492,7 +491,7 @@ var PM = new (function ($) {
 			var currentHashArr = hashArr[i].split('=');
 			this.hashObj[currentHashArr[0]] = (currentHashArr.length > 1?decodeURIComponent(currentHashArr[1]):decodeURIComponent(currentHashArr[0]));
 			try{ //try to parse a JSON object, if it fails then it must be text.
-				this.hashObj[currentHashArr[0]] = $.parseJSON(this.hashObj[currentHashArr[0]]);
+				this.hashObj[currentHashArr[0]] = JSON.parse(this.hashObj[currentHashArr[0]]);
 			}catch(e){}
 		}
 
@@ -509,6 +508,18 @@ var PM = new (function ($) {
 		return this;
 	};
 
+	this.addEventListener = function(element, method, func){
+		var eventMethod = 'addEventListener'; 
+		var prependMethod = '';
+		if(!window.addEventListener){
+			eventMethod = 'attachEvent';
+			prependMethod = 'on';
+		}
+		element[eventMethod](prependMethod+method, function(e){
+			func(e);
+		});
+	};
+
 	/**
 	 * Clears all open listeners and messages.
 	 * Primarily used for testing.
@@ -520,124 +531,8 @@ var PM = new (function ($) {
 	//	//this.authorizedUrls = [];
 	//};
 
-	/**
-	 * jQuery.toJSON
-	 * Converts the given argument into a JSON representation.
-	 *
-	 * @param o {Mixed} The json-serializable *thing* to be converted
-	 *
-	 * If an object has a toJSON prototype, that will be used to get the representation.
-	 * Non-integer/string keys are skipped in the object, as are keys that point to a
-	 * function.
-	 * @author Brantley Harris, 2009-2011
-	 * @author Timo Tijhof, 2011-2012
-	 * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
-	 */
-	this.toJSON = typeof JSON === 'object' && JSON.stringify ? JSON.stringify : function (o) {
-		if (o === null) {
-			return 'null';
-		}
-
-		var pairs, k, name, val,
-			type = $.type(o);
-
-		if (type === 'undefined') {
-			return undefined;
-		}
-
-		// Also covers instantiated Number and Boolean objects,
-		// which are typeof 'object' but thanks to $.type, we
-		// catch them here. I don't know whether it is right
-		// or wrong that instantiated primitives are not
-		// exported to JSON as an {"object":..}.
-		// We choose this path because that's what the browsers did.
-		if (type === 'number' || type === 'boolean') {
-			return String(o);
-		}
-		if (type === 'string') {
-			return $.quoteString(o);
-		}
-		if (typeof o.toJSON === 'function') {
-			return $.toJSON(o.toJSON());
-		}
-		if (type === 'date') {
-			var month = o.getUTCMonth() + 1,
-				day = o.getUTCDate(),
-				year = o.getUTCFullYear(),
-				hours = o.getUTCHours(),
-				minutes = o.getUTCMinutes(),
-				seconds = o.getUTCSeconds(),
-				milli = o.getUTCMilliseconds();
-
-			if (month < 10) {
-				month = '0' + month;
-			}
-			if (day < 10) {
-				day = '0' + day;
-			}
-			if (hours < 10) {
-				hours = '0' + hours;
-			}
-			if (minutes < 10) {
-				minutes = '0' + minutes;
-			}
-			if (seconds < 10) {
-				seconds = '0' + seconds;
-			}
-			if (milli < 100) {
-				milli = '0' + milli;
-			}
-			if (milli < 10) {
-				milli = '0' + milli;
-			}
-			return '"' + year + '-' + month + '-' + day + 'T' +
-				hours + ':' + minutes + ':' + seconds +
-				'.' + milli + 'Z"';
-		}
-
-		pairs = [];
-
-		if ($.isArray(o)) {
-			for (k = 0; k < o.length; k++) {
-				pairs.push($.toJSON(o[k]) || 'null');
-			}
-			return '[' + pairs.join(',') + ']';
-		}
-
-		// Any other object (plain object, RegExp, ..)
-		// Need to do typeof instead of $.type, because we also
-		// want to catch non-plain objects.
-		if (typeof o === 'object') {
-			for (k in o) {
-				// Only include own properties,
-				// Filter out inherited prototypes
-				if (hasOwn.call(o, k)) {
-					// Keys must be numerical or string. Skip others
-					type = typeof k;
-					if (type === 'number') {
-						name = '"' + k + '"';
-					} else if (type === 'string') {
-						name = $.quoteString(k);
-					} else {
-						continue;
-					}
-					type = typeof o[k];
-
-					// Invalid values like these return undefined
-					// from toJSON, however those object members
-					// shouldn't be included in the JSON string at all.
-					if (type !== 'function' && type !== 'undefined') {
-						val = $.toJSON(o[k]);
-						pairs.push(name + ':' + val);
-					}
-				}
-			}
-			return '{' + pairs.join(',') + '}';
-		}
-	};
-
 	//intialize the object now.
 	this.init();
 
 	return this;
-})(jQuery);
+})();

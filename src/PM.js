@@ -518,7 +518,7 @@ var PM = new (function () {
 		element[eventMethod](prependMethod+method, function(e){
 			func(e);
 		});
-	}
+	};
 
 	/**
 	 * Clears all open listeners and messages.
