@@ -492,7 +492,7 @@ var PM = new (function ($) {
 			var currentHashArr = hashArr[i].split('=');
 			this.hashObj[currentHashArr[0]] = (currentHashArr.length > 1?decodeURIComponent(currentHashArr[1]):decodeURIComponent(currentHashArr[0]));
 			try{ //try to parse a JSON object, if it fails then it must be text.
-				this.hashObj[currentHashArr[0]] = $.parseJSON(this.hashObj[currentHashArr[0]]);
+				this.hashObj[currentHashArr[0]] = JSON.parse(this.hashObj[currentHashArr[0]]);
 			}catch(e){}
 		}
 
