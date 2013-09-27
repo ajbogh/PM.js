@@ -41,11 +41,6 @@ and the internal iframe which pointed to our login website. Without going into f
 solution is based on the initial understanding of easyXDM's RPC calls, and the knowledge from working 
 extensively with postMessage requests.
 
-Requiements for Use
--------------------
-
-1) JQuery is required (any version 1.4.2+)
-
 Shared code (implement on both websites)
 ----------------------------------------
 
