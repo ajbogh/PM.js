@@ -1,13 +1,12 @@
 /**
  * A postMessage handler that can be implemented on 2 separate websites within 2 different domains (or more).
- * @param  {jquery} $
  * @return {object} PM
  * @constructor - self instantiating
  * @author   Allan Bogh (ajbogh@allanbogh.com)
  * @version  0.1 (2013-09-17)
  * @requires jQuery
  */
-var PM = new (function ($) {
+var PM = new (function () {
 	//check for existing PM
 	if(PM){
 		//PM already exists, just return it.
@@ -32,7 +31,7 @@ var PM = new (function ($) {
 		var hash = new this.Hash();
 		var self = this;
 		if(hash.keyExists("action") && hash.get("action") === "postMessage"){
-			$(window).on("load", function(){
+			this.addEventListener(window, "load", function(){
 				//pass back the ready state
 				if(hash.keyExists("referrer")){
 					var referrer = hash.get("referrer");
@@ -50,12 +49,12 @@ var PM = new (function ($) {
 	 */
 	this._createListener = function () {
 		var self = this;
-		$(window).on("message",function(e){
-			if (self.isAuthorizedUrl(e.originalEvent.origin)){
-				var oeData = e.originalEvent.data;
+		this.addEventListener(window, "message", function(e){
+			if (self.isAuthorizedUrl(e.origin)){
+				var oeData = e.data;
 				self._handlePostMessageRequest(oeData, e);
 			}else{
-				throw new Error(e.originalEvent.origin+" is not an authorized URL.");
+				throw new Error(e.origin+" is not an authorized URL.");
 			}
 		});
 	};
@@ -105,9 +104,9 @@ var PM = new (function ($) {
 			pmData.deleteCallback = true;
 		}
 		
-		var origin = e.originalEvent.origin;
+		var origin = e.origin;
 
-		e.originalEvent.source.postMessage(pmData, origin);
+		e.source.postMessage(pmData, origin);
 		return;
 	};
 
@@ -121,7 +120,7 @@ var PM = new (function ($) {
 		this.registerListener("ready", function(data, e){
 			//sets a "pmReady" variable on the iframe.
 			//the act of having a handle in this object means that the source is now ready.
-			this._handlers[data.handle] = e.originalEvent.source;
+			this._handlers[data.handle] = e.source;
 		});
 	};
 
@@ -509,6 +508,18 @@ var PM = new (function ($) {
 		return this;
 	};
 
+	this.addEventListener = function(element, method, func){
+		var eventMethod = 'addEventListener'; 
+		var prependMethod = '';
+		if(!window.addEventListener){
+			eventMethod = 'attachEvent';
+			prependMethod = 'on';
+		}
+		element[eventMethod](prependMethod+method, function(e){
+			func(e);
+		});
+	}
+
 	/**
 	 * Clears all open listeners and messages.
 	 * Primarily used for testing.
@@ -524,4 +535,4 @@ var PM = new (function ($) {
 	this.init();
 
 	return this;
-})(jQuery);
+})();
