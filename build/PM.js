@@ -3,8 +3,7 @@
  * @return {object} PM
  * @constructor - self instantiating
  * @author   Allan Bogh (ajbogh@allanbogh.com)
- * @version  0.1 (2013-09-17)
- * @requires jQuery
+ * @version  0.2 (2013-09-17)
  */
 var PM = new (function () {
 	//check for existing PM
