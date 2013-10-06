@@ -435,14 +435,20 @@ var PM = new (function () {
 	 * @param  {object} handler - a registered handler (PM._handlers[handlerID])
 	 * @return {boolean} true when the handler has been deleted.
 	 */
-	this.removePMIframe = function(handler){
+	this.removePMIframe = function(iframe){
 		//safety check
-		if(!handler){
+		if(!iframe || !iframe.id){
 			return false;
 		}
+		var id = iframe.id;
 		//cleans up all iframes
-		handler.parentNode.removeChild(handler);
-		delete this._handlers[handler.id];
+		if(this._iframes[id]){
+			this._iframes[id].parentNode.removeChild(this._iframes[id]);
+			delete this._iframes[id];
+		}
+		if(this._handlers[id]){
+			delete this._handlers[id];
+		}
 		return true;
 	};
 
@@ -453,10 +459,10 @@ var PM = new (function () {
 	 */
 	this.removePMIframeByHandle = function(handle){
 		//cleans up all iframes
-		if(!this._handlers[handle]){ return false; }
+		if(!this._iframes[handle]){ return false; }
 		
-		var handler = this._handlers[handle];
-		return this.removePMIframe(handler);
+		var iframe = this._iframes[handle];
+		return this.removePMIframe(iframe);
 	};
 
 	/**
@@ -464,16 +470,16 @@ var PM = new (function () {
 	 * @param  {object} handlers (optional) - all registered handlers (PM._handlers)
 	 * @return {boolean} true when all handlers have been deleted
 	 */
-	this.removePMIframes = function(handlers){
+	this.removePMIframes = function(iframes){
 		//fill in the variable
-		if(!handlers){
-			handlers = this._handlers;
+		if(!iframes){
+			iframes = this._iframes;
 		}
 		//cleans up all iframes
 		var success = true; 
-		for(var i in handlers){
-			if(!handlers.hasOwnProperty(i)){ continue; }
-			success = this.removePMIframe(handlers[i]) && success;
+		for(var i in iframes){
+			if(!iframes.hasOwnProperty(i)){ continue; }
+			success = this.removePMIframe(iframes[i]) && success;
 		}
 		return success;
 	};

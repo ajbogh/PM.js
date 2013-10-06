@@ -28,10 +28,11 @@ describe("PM", function () {
 		expect(isThere).toBe(true);
 	});
 	it("formatIframeUrl - creates an iframe postMessage URL from a given URL", function () {
+		var location = window.location.href;
 		var iframeUrl = obj.formatIframeUrl("test", "http://www.google.com/test.html?test=true");
-		expect(iframeUrl).toEqual("http://www.google.com/test.html?test=true#action=postMessage&referrer=http%3A%2F%2Fmydomain.com%2FPM%2Ftests%2FSpecRunner.PM.html%3Fspec%3DPM&handle=test");
+		expect(iframeUrl).toEqual("http://www.google.com/test.html?test=true#action=postMessage&referrer="+encodeURIComponent(location)+"&handle=test");
 		iframeUrl = obj.formatIframeUrl("test","http://www.google.com/test.html?test=true#test=123");
-		expect(iframeUrl).toEqual("http://www.google.com/test.html?test=true#test=123&action=postMessage&referrer=http%3A%2F%2Fmydomain.com%2FPM%2Ftests%2FSpecRunner.PM.html%3Fspec%3DPM&handle=test");
+		expect(iframeUrl).toEqual("http://www.google.com/test.html?test=true#test=123&action=postMessage&referrer="+encodeURIComponent(location)+"&handle=test");
 	});
 	it("preloadUrl - creates an iframe, makes sure it was written to the document", function () {
 		var id = "test";
@@ -47,9 +48,8 @@ describe("PM", function () {
 			"test2":"http://www.google.com/test2.html"
 		});
 		
-		//TODO: fix this
-		//expect(document.getElementById("test")).toEqual(iframes["test"]);
-		//expect(document.getElementById("test2")).toEqual(iframes["test2"]);
+		expect(document.getElementById("test")).toEqual(iframes["test"]);
+		expect(document.getElementById("test2")).toEqual(iframes["test2"]);
 		obj.removePMIframes();
 		obj.clearAuthorizedUrls();
 	});
@@ -73,20 +73,20 @@ describe("PM", function () {
 	it("removePMIframe - deletes an iframe and handler from the document", function () {
 		var id = "test";
 		obj.preloadUrl(id, "http://www.google.com/test.html?test=true");
-		obj.removePMIframe(obj._handlers[id]);
-		//TODO: fix this
-		//expect(obj._handlers[id]).not.toBeDefined();
-		//expect(document.getElementById("test")).toEqual(null);
+		obj.removePMIframe(obj._iframes[id]);
+		expect(obj._handlers[id]).not.toBeDefined();
+		expect(obj._iframes[id]).not.toBeDefined();
+		expect(document.getElementById("test")).toEqual(null);
 		obj.clearAuthorizedUrls();
 	});
 	it("removePMIframeByHandle - deletes an iframe and handler by a handle", function () {
 		var id = "test";
 		obj.preloadUrl(id, "http://www.google.com/test.html?test=true");
 		var result = obj.removePMIframeByHandle(id);
+		expect(obj._iframes[id]).not.toBeDefined();
 		expect(obj._handlers[id]).not.toBeDefined();
-		//TODO: fix this
-		//expect(document.getElementById("test")).toEqual(null);
-		//expect(result).toEqual(true);
+		expect(document.getElementById("test")).toEqual(null);
+		expect(result).toEqual(true);
 		obj.clearAuthorizedUrls();
 	});
 	it("removePMIframes (no param) - deletes all iframes from the document", function () {
@@ -95,12 +95,13 @@ describe("PM", function () {
 		var id2 = "test2";
 		var iframe2 = obj.preloadUrl(id2, "http://www.google.com/test2.html?test=true");
 		var result = obj.removePMIframes();
-		//TODO:fix this
-		/*expect(obj._handlers[id]).not.toBeDefined();
+		expect(obj._iframes[id]).not.toBeDefined();
+		expect(obj._handlers[id]).not.toBeDefined();
+		expect(obj._iframes[id2]).not.toBeDefined();
 		expect(obj._handlers[id2]).not.toBeDefined();
 		expect(document.getElementById("test")).toEqual(null);
 		expect(document.getElementById("test2")).toEqual(null);
-		expect(result).toEqual(true);*/
+		expect(result).toEqual(true);
 		obj.clearAuthorizedUrls();
 	});
 	it("removePMIframes (with param) - deletes all iframes from the document", function () {
@@ -108,57 +109,29 @@ describe("PM", function () {
 		var iframe = obj.preloadUrl(id, "http://www.google.com/test.html?test=true");
 		var id2 = "test2";
 		var iframe2 = obj.preloadUrl(id2, "http://www.google.com/test2.html?test=true");
-		var result = obj.removePMIframes(obj._handlers);
-		//TODO: fix this
-		/*expect(obj._handlers[id]).not.toBeDefined();
+		var result = obj.removePMIframes(obj._iframes);
+		expect(obj._handlers[id]).not.toBeDefined();
+		expect(obj._iframes[id]).not.toBeDefined();
 		expect(obj._handlers[id2]).not.toBeDefined();
+		expect(obj._iframes[id2]).not.toBeDefined();
 		expect(document.getElementById("test")).toEqual(null);
 		expect(document.getElementById("test2")).toEqual(null);
-		expect(result).toEqual(true);*/
+		expect(result).toEqual(true);
 		obj.clearAuthorizedUrls();
 	});
 
 	it("postMessage - posts a message to localhost", function () {
 		obj.registerListener("mytest", function(data){
-			console.log("within mytest");
+			expect(data.action).toEqual("mytest");
+			expect(data.data).toEqual(null);
 		});
 		obj.postMessage("testhandle", "test", {my:"test", test:"is good"}, "mytest", "http://otherdomain.com/PM/tests/TestPMWebpage.html");
 	});	
-});
 
-/*describe("MyObject", function () {
-	var obj = new MyObject();
-
-	beforeEach(function () {
-		obj.setState("clean");
-	});
-	it("changes state", function () {
-		obj.setState("dirty");
-		expect(obj.getState()).toEqual("dirty");
-	})
-	it("adds states", function () {
-		obj.addState("packaged");
-		expect(obj.getState()).toEqual(["clean", "packaged"]);
-	})
-});
-	
-describe("test", function () {
-	beforeEach(function () {
-		this.addMatchers({
-			toBeBetween: function (rangeFloor, rangeCeiling) {
-				if (rangeFloor > rangeCeiling) {
-					var temp = rangeFloor;
-					rangeFloor = rangeCeiling;
-					rangeCeiling = temp;
-				}
-				return this.actual > rangeFloor && this.actual < rangeCeiling;
-			}
+	it("postMessage - posts a message to localhost", function () {
+		obj.registerListener("mytest", function(data){
+			expect(data.action).toEqual("mytest");
 		});
-	});
-	it("works", function () {
-	   expect(10).toBeBetween(5, 30);
-	});
-	it("works too", function () {
-	   expect(100).toBeBetween(500, 30);
-	});
-});*/
+		obj.postMessage("testhandle", "test", {my:"test", test:"is good"}, "mytest");
+	});	
+});
