@@ -1,0 +1,44 @@
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">   </script>
+    <script type="text/javascript" src="../src/PM.js"></script>
+
+    <script>
+        // Add some security for the parent website's postMessage listener.
+        // Note: This does not interfere with existing postMessage systems 
+        // such as Google or Facebook.
+        PM.addAuthorizedUrl([
+            "http://pmmain.local:8000"
+        ]);
+
+        $(document).ready(function(){
+            // PM.js is missing some functionality for this simple use case. 
+            // I will add it, but this should work too.
+            window.parent.postMessage(
+                {
+                    action:"resizeIframe", 
+                    height: document.body.scrollHeight, 
+                    width: document.body.scrollWidth
+                }, 
+                //use a variable to pass the referrer domain to the iframe!
+                "http://pmmain.local:8000");
+        });
+    </script>
+</head>
+<body>
+    <p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+	<p>test</p>
+</body>
+</html>
