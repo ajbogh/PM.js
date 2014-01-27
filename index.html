@@ -31,45 +31,67 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
+        <ul class="toc">
+          <li><a href="#welcome">Welcome</a></li>
+          <li><a href="#examples">Examples</a>
+              <ul>
+                <li><a href="#rpc-up">RPC-up</a> - Executing functions on a parent website from a visible iframe.</li>
+                <li><a href="#rpc-down">RPC-down</a> - Executing functions on an iframe website after it loads.</li>
+                <li><a href="#roundtrips">Round trips</a> - Callbacks for roundtrip communication.</li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#preloading">Preloading iframes</a></li>
+                <li><a href="#exceptions">Exceptions</a></li>
+              </ul>
+          </li>
+          <li><a href="#authors-and-contributors">Authors and Contributors</a></li>
+          <li><a href="#support-or-contact">Support or Contact</a></li>
+        </ul>
+   
+        <h3><a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>PM.js</h3>
+
+        <p>PM.js is a postMessage wrapper for client-side Javascript that allows two websites from different domains, protocols, and ports to communicate with eachother and execute javascript functions on the other website.</p>
+
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage">postMessage</a> is a RPC-style Javascript messaging system that's in use by Google, Facebook, Twitter, Disney, and many other websites. It's also used for advertisers or in ad tracking such as for Google's adsense. Anywhere you might need two websites to communicate with eachother through client-side code, postMessage can be used and PM.js can make your life easier.</p>
+
+        <h3><a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h3>
+
+        <h4><a name="rpc-up" class="anchor" href="#rpc-up"><span class="octicon octicon-link"></span></a>RPC-up - Visible iframe to parent</h4>
+        <p>
+          A common theme in iframes is for developers to want the iframe to communicate with the parent window when something has happened. Perhaps a user has logged in or pressed a button within the iframe. This is may be used for something like an OAuth login screen, such as Facebook's login, or Google's.
+        </p>
+        <p>The assumption here is that the iframe website knows what the URL is of the parent website. This is usually accomplished by feeding the iframe website the URL in a query string, such as 
+        <pre>http://logindomain.com/iframepage.html?referrer=http%3A%2F%2Fouterdomain.com%2Flogin.html</pre>
+        Notice how the URL for the main domain's login page is in the "referrer" query string. This allows the iframe's webpage to know what domain to communicate with.
+        </p>
+
+        <h4><a name="rpc-down" class="anchor" href="#rpc-down"><span class="octicon octicon-link"></span></a>RPC-down - Child functions</h4>
+        <p></p>
+
+        <h4><a name="roundtrips" class="anchor" href="#roundtrips"><span class="octicon octicon-link"></span></a>Round trips</h4>
+        <p></p>
+
+        <h4><a name="exceptions" class="anchor" href="#exceptions"><span class="octicon octicon-link"></span></a>Exceptions</h4>
+        <p></p>
+
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        <p>
+        Allan Bogh (<a href="https://github.com/ajbogh" class="user-mention">@ajbogh</a>) - Creator and lead developer
+        </p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <h3>
+        <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <p>Having trouble with Pm.js? Submit an issue so we can help you can your question can help others <a href="https://github.com/ajbogh/PM.js/issues">https://github.com/ajbogh/PM.js/issues</a> or contact <a href="mailto:ajbogh@allanbogh.com">Allan Bogh</a> and we’ll help you sort it out.</p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Pm.js maintained by <a href="https://github.com/ajbogh">ajbogh</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p class="copyright">Pm.js is designed and maintained by <a href="https://github.com/ajbogh">Allan Bogh</a></p>
+        <p><a href="LICENSE.html">License</a> | <a href="https://github.com/ajbogh/PM.js">GitHub Source</a></p>
       </footer>
     </div>
 
