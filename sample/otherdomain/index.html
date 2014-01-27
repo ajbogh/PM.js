@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>OtherDomain.com</title>
-	<script type="text/javascript" src="../../build/PM.min.js"></script>
+	<script type="text/javascript" src="../../src/PM.js"></script>
 	<script>
 		/* This webpage hosted at http://otherdomain.com/sample/otherdomain/index.html
 		 * will host the "responder page" for the parent website. It essentially acts like a
@@ -12,9 +12,10 @@
 		 * page authorizes the domain, tells the parent that it's ready for communication, 
 		 * then responds to requests.
 		 */
+		
 		PM.addAuthorizedUrl([
 			"http://localhost", //for testing you can also use localhost
-			"http://mydomain.com"
+			"http://pmmain.local:8000"
 		]).registerListener("testaction", function(data){
 			// This registers an action called "testaction"
 			// The parent website would call this action, such as an API.
@@ -31,10 +32,28 @@
 			console.log(data);
 			return "returntest success";
 		});
+
+		/*
+		 * If this iframe is loaded from the parent site as a visible iframe, which may not 
+		 * have the correct "&action" parameter (ex. <iframe src="http://otherdomain.com/loginpage">)
+		 * then the iframe child may need to communicate with the parent. This communication route must be
+		 * manually set up using the method below:
+		 */
+		//this code just prevents other tests from firing this example
+		var hash = new PM.Hash();
+		if(hash.keyExists("action")){ //end prevention 
+			//The parent URL must be sent in the query string or get it from referer
+			//The handle will be "parent". This is a default handle when using the initChildIframe function
+			console.log("initializing child iframe");
+			PM.initChildIframe("http://pmmain.local:8000/sample/");
+			//call the registered listener in the parent
+			console.log("calling mycallback of parent window");
+			PM.postMessage("parent", "mycallback", {"test":"Success"}, "returntest");
+		}
 	</script>
 </head>
 <body>
-	
+	Now you see me!
 
 </body>
 </html>

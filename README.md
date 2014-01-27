@@ -121,3 +121,29 @@ Considerations
 4. What about IE, I hear it works differently with postMessage? -- I know. It's been handled. I'm not even happy about it since Microsoft's website even says IE handles objects when it doesn't. Grumble grumble.
 
 5. What browsers does this work with? -- The question should be what doesn't this work with? IE7 and below is not compatible. Most every up-to-date browser is compatible, including Firefox, Chrome, Safari, Android browsers, iOS, IE8+, Opera, etc.
+
+Developers
+==========
+
+Requirements
+------------
+
+1. nodejs (instructions for Ubuntu)
+	
+	sudo apt-get install python-software-properties python g++ make
+	sudo add-apt-repository ppa:chris-lea/node.js
+	sudo apt-get update
+	sudo apt-get install nodejs
+
+2. grunt-cli
+
+	sudo npm install -g grunt-cli
+
+Building
+--------
+
+1) Open the terminal (or use an IDE that can integrate with nodejs or grunt) and cd to the PM directory.
+
+2) Issue the following command:
+
+	> grunt
