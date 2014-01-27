@@ -59,26 +59,26 @@ module.exports = function(grunt) {
 	}
 	},*/
 
-	'jasmine' : {
-		src : 'src/*.js',
-		specs : 'tests/spec/*Spec.js',
-		helpers : 'lib/jquery.min.js',
-		timeout : 10000,
-		junit : {
-			output : 'tests/junit/'
-		},
-		coverage : {
-			output : 'tests/junit/coverage/',
-			reportType : 'cobertura',
-			excludes : ['lib/**/*.js']
-		},
-		phantomjs : {
-			'ignore-ssl-errors' : true
-		},
-		'jasmine-server' : {
-			browser : false
-		}
-	}
+	//'jasmine' : {
+	//	src : 'src/*.js',
+	//	specs : 'tests/spec/*Spec.js',
+	//	helpers : 'lib/jquery.min.js',
+	//	timeout : 10000,
+	//	junit : {
+	//		output : 'tests/junit/'
+	//	},
+	//	coverage : {
+	//		output : 'tests/junit/coverage/',
+	//		reportType : 'cobertura',
+	//		excludes : ['lib/**/*.js']
+	//	},
+	//	phantomjs : {
+	//		'ignore-ssl-errors' : true
+	//	},
+	//	'jasmine-server' : {
+	//		browser : false
+	//	}
+	//}
 });
 
 //grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -88,10 +88,10 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-yui-compressor');
 grunt.loadNpmTasks('grunt-contrib-qunit');
-grunt.loadNpmTasks('grunt-jasmine-coverage');
+/*grunt.loadNpmTasks('grunt-jasmine-coverage');
 
 //grunt.registerTask('test', ['jshint', 'qunit']);
-grunt.registerTask('jasmine', ['jasmine']);
+grunt.registerTask('jasmine', ['jasmine']);*/
 
 //grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
 grunt.registerTask('default', ['jshint', 'concat', 'min']);

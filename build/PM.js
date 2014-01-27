@@ -27,18 +27,33 @@ var PM = new (function () {
 
 		//instantiate a new listener immediately.
 		this._createListener();
-		var hash = new this.Hash();
-		var self = this;
+		var hash = new this.Hash(),
+			self = this;
 		if(hash.keyExists("action") && hash.get("action") === "postMessage"){
 			this.addEventListener(window, "load", function(){
 				//pass back the ready state
 				if(hash.keyExists("referrer")){
 					var referrer = hash.get("referrer");
 					var parsedReferrer = self.parseUrl(referrer);
-					window.parent.postMessage({action:"ready", handle:hash.get("handle")}, parsedReferrer.protocol + '//' + parsedReferrer.hostname);
+					window.parent.postMessage({action:"ready", handle:hash.get("handle")}, 
+						parsedReferrer.protocol + '//' + parsedReferrer.hostname + (parsedReferrer.port?":"+parsedReferrer.port:""));
 				}
 			});
 		}
+	};
+
+	/**
+	 * initChildIframe registers the parent window as a handle and iframe
+	 * so that the child frame can post messages up to the parent.
+	 * @param {string} parentUrl - The URL of the parent webpage. The protocol, domain, and port is required if the port is not 443 or 80.
+	 * @return {object} The PM object to be used for chaining calls.
+	 */
+	this.initChildIframe = function(parentUrl){
+		this._handlers.parent = window.parent;
+		this._iframes.parent = {};
+		//need to store the parent URL since we don't actually have an iframe.
+		this._iframes.parent.src = parentUrl;
+		return this;
 	};
 
 	/**
@@ -142,8 +157,7 @@ var PM = new (function () {
 	this.addAuthorizedUrl = function(url){
 		//overload for addAuthorizedUrls
 		if(Object.prototype.toString.call(url) === '[object Array]'){
-			this.addAuthorizedUrls(url);
-			return;
+			return this.addAuthorizedUrls(url);
 		}
 
 		if(url === "*"){
@@ -239,8 +253,16 @@ var PM = new (function () {
 		iframe.src = pmUrl;
 
 		this._iframes[handle] = iframe;
+		var listenerFunction = function(){
+			document.body.appendChild(iframe);
+			document.removeEventListener( "DOMContentLoaded", listenerFunction, false );
+		};
 
-		document.body.appendChild(iframe);
+		if(!document.body){
+			this.addEventListener(document, "DOMContentLoaded", listenerFunction);
+		}else{
+			document.body.appendChild(iframe);
+		}	
 
 		return iframe;
 	};
@@ -384,7 +406,7 @@ var PM = new (function () {
 				pmData.callback = callbackAction;	
 			}
 		}
-		var parsedIframe = this.parseUrl(this._iframes[handle].src), 
+		var parsedIframe = this.parseUrl(this._iframes[handle].src),
 			domainPart = parsedIframe.hostname+(parsedIframe.port?":"+parsedIframe.port:""),
 			origin = parsedIframe.protocol+"//"+domainPart;
 

@@ -54,7 +54,7 @@ var PM = new (function () {
 		//need to store the parent URL since we don't actually have an iframe.
 		this._iframes.parent.src = parentUrl;
 		return this;
-	}
+	};
 
 	/**
 	 * Creates a window.onmessage listener. 
@@ -253,12 +253,13 @@ var PM = new (function () {
 		iframe.src = pmUrl;
 
 		this._iframes[handle] = iframe;
+		var listenerFunction = function(){
+			document.body.appendChild(iframe);
+			document.removeEventListener( "DOMContentLoaded", listenerFunction, false );
+		};
 
 		if(!document.body){
-			this.addEventListener(document, "DOMContentLoaded", function(){
-				document.body.appendChild(iframe);
-				document.removeEventListener( "DOMContentLoaded", arguments.callee, false );
-			});
+			this.addEventListener(document, "DOMContentLoaded", listenerFunction);
 		}else{
 			document.body.appendChild(iframe);
 		}	
