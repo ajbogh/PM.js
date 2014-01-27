@@ -6,6 +6,8 @@ A complete, simple, effective, and secure postMessage solution for your websites
 PM is a simple postMessage wrapper that handles setup, security, communication, and callbacks.
 It's very simple to use, as you will see below.
 
+[Github Page Link](http://ajbogh.github.io/PM.js/)
+
 About postMessage requests
 --------------------------
 
