@@ -2,9 +2,9 @@
 <html>
 <head>
 	<title>OtherDomain.com</title>
-	<script type="text/javascript" src="../../src/PM.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/ajbogh/PM.js/master/src/PM.js"></script>
 	<script>
-		/* This webpage hosted at http://otherdomain.com/sample/otherdomain/index.html
+		/* This webpage hosted at http://pminner.local:8889/index.html
 		 * will host the "responder page" for the parent website. It essentially acts like a
 		 * pure javascript API for authorized domains.
 		 * 
@@ -15,7 +15,7 @@
 		
 		PM.addAuthorizedUrl([
 			"http://localhost", //for testing you can also use localhost
-			"http://pmmain.local:8000"
+			"http://pmmain.local:8888"
 		]).registerListener("testaction", function(data){
 			// This registers an action called "testaction"
 			// The parent website would call this action, such as an API.
@@ -45,7 +45,7 @@
 			//The parent URL must be sent in the query string or get it from referer
 			//The handle will be "parent". This is a default handle when using the initChildIframe function
 			console.log("initializing child iframe");
-			PM.initChildIframe("http://pmmain.local:8000/sample/");
+			PM.initChildIframe("http://pmmain.local:8888/index.html");
 			//call the registered listener in the parent
 			console.log("calling mycallback of parent window");
 			PM.postMessage("parent", "mycallback", {"test":"Success"}, "returntest");

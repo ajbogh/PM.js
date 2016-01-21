@@ -124,6 +124,27 @@ Considerations
 
 5. What browsers does this work with? -- The question should be what doesn't this work with? IE7 and below is not compatible. Most every up-to-date browser is compatible, including Firefox, Chrome, Safari, Android browsers, iOS, IE8+, Opera, etc.
 
+Using the Sample Code
+=====================
+
+Add host file entries for pmmain.local and pminner.local.
+
+    sudo nano /etc/hosts
+
+Add the following:
+
+    127.0.0.1 pmmain.local
+    127.0.0.1 pminner.local
+
+Browse to the sample directory and start the app using NodeJS.
+
+    cd sample
+    node app.js
+
+Open your web browser to http://pmmain.local:8888 and open your console to see messages from the inner domain.
+
+You can also see how inner domain can control a visible iframe, or any other part of the site using callback functions at this URL: http://pmmain.local:8888/resizeiframe.html. The iframe will dynamically change height based on the size of the content within it.
+
 Developers
 ==========
 
@@ -131,9 +152,7 @@ Requirements
 ------------
 
 1. nodejs (instructions for Ubuntu)
-	
-	sudo apt-get install python-software-properties python g++ make
-	sudo add-apt-repository ppa:chris-lea/node.js
+
 	sudo apt-get update
 	sudo apt-get install nodejs
 

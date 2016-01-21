@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>pmmain.com</title>
-	<script type="text/javascript" src="../src/PM.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/ajbogh/PM.js/master/src/PM.js"></script>
 	<script>
 		/* This webpage hosted at http://mydomain.com/sample/index.html
 		 * will host the "parent website" for the "responder page" at otherdomain.com. 
@@ -37,7 +37,7 @@
 			"testaction", // action to execute
 			{my:"test", test:"is good"}, // data to send
 			null, // callback function or listener name
-			"http://pminner.local:8000/sample/otherdomain/index.html" // webpage for otherdomain.com
+			"http://pminner.local:8889/index.html" // webpage for otherdomain.com
 		);
 
 		// What's that weird null in there you say?
@@ -70,7 +70,7 @@
 	</script>
 </head>
 <body>
-	<iframe src="http://pminner.local:8000/sample/otherdomain/index.html">
+	<iframe src="http://pminner.local:8889/index.html">
 
 </body>
 </html>
