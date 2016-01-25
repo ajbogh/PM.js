@@ -5,7 +5,7 @@ module.exports = function (gulp) {
         gulp.src('./sample')
             .pipe(webserver({
                 host: "pmmain.local",
-                livereload: true,
+                livereload: {enable: true, port: 35729},
                 directoryListing: false,
                 fallback: "./sample/index.html",
                 open: false,
@@ -33,7 +33,7 @@ module.exports = function (gulp) {
         gulp.src('./build')
             .pipe(webserver({
                 host: "pmmain.local",
-                livereload: false, //the livereload above takes care of this.
+                livereload: {enable: true, port: 35730},
                 directoryListing: false,
                 open: false,
                 port: 8890

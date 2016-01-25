@@ -1,6 +1,12 @@
 <html>
 <head>
-    <script type="text/javascript" src="https://rawgit.com/ajbogh/PM.js/master/src/PM.js"></script>
+    <style>
+        iframe {
+            overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript" src="//pmmain.local:8890/PM.js"></script>
 
     <script>
         // Add some security for the parent website's postMessage listener.
@@ -21,7 +27,10 @@
     </script>
 </head>
 <body>
+    <p>The iframe below has buttons which will add more or less content to the body. The iframe will report the new
+    size to the parent website so that the parent can resize the iframe dynamically. This is useful for thigs like modal
+    windows with iframes embedded within.</p>
     <!-- whatever body you want. -->
-    <iframe id="iframe" src="http://pminner.local:8889/resizeiframeinner.html"></iframe>
+    <iframe id="iframe" scrolling="no" src="http://pminner.local:8889/resizeiframeinner.html"></iframe>
 </body>
 </html>

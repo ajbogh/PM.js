@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "browser-sync": "^2.11.1",
     "gulp": "^3.9.0",
     "gulp-jshint": "^2.0.0",
     "gulp-minify": "0.0.5",

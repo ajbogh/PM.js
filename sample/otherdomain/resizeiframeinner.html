@@ -1,37 +1,103 @@
 <html>
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">   </script>
-    <script type="text/javascript" src="https://rawgit.com/ajbogh/PM.js/master/src/PM.js"></script>
+    <script type="text/javascript" src="//pmmain.local:8890/PM.js"></script>
+
+	<style>
+		body {
+			padding: 10px;
+            height: auto;
+            width: auto;
+		}
+		button {
+			margin: 5px;
+		}
+        #content {
+            display: inline-block;
+        }
+        #buttons {
+            white-space: nowrap;
+        }
+		#horizontalContent {
+			white-space: nowrap;
+		}
+	</style>
 
     <script>
 		PM.addAuthorizedUrl([
 			"*"
 		]);
 
-        $(document).ready(function(){
-			PM.initChildIframe("http://pmmain.local:8888/resizeiframe.html");
+		function changeHeight(){
+            var element = document.getElementById("content")
+            var clientRect = element.getBoundingClientRect();
+                width = clientRect.width,
+                height = clientRect.height,
+                marginX = clientRect.left,
+                marginY = clientRect.top;
 
 			PM.postMessage("parent", "resizeIframe", {
-				height: document.body.scrollHeight,
-				width: document.body.scrollWidth
+				height: element.scrollHeight + (marginY * 2),
+				width: element.scrollWidth + (marginX * 2)
 			});
-        });
+		}
+
+		document.addEventListener('DOMContentLoaded', function(){
+			PM.initChildIframe("http://pmmain.local:8888/resizeiframe.html");
+			changeHeight();
+		}, false);
+
+        var firstVertical = null;
+		function addVertical(){
+			var content = document.getElementById("verticalContent");
+            if(!firstVertical){
+                firstVertical = content.innerHTML+"";
+            }
+			content.innerHTML += content.innerHTML;
+			changeHeight();
+		}
+		function resetVertical(){
+            var content = document.getElementById("verticalContent");
+            content.innerHTML = firstVertical;
+            changeHeight();
+		}
+
+        var firstHorizontal = null;
+		function addHorizontal(){
+			var content = document.getElementById("horizontalContent");
+            if(!firstHorizontal){
+                firstHorizontal = content.innerHTML+"";
+            }
+			content.innerHTML += content.innerHTML;
+			changeHeight();
+		}
+		function resetHorizontal(){
+            var content = document.getElementById("horizontalContent");
+            content.innerHTML = firstHorizontal;
+            changeHeight();
+		}
     </script>
 </head>
 <body>
-    <p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
-	<p>test</p>
+
+    <div id="content">
+        <div id="buttons">
+            <button onclick="addVertical()">Make bigger vertically</button> <button onclick="resetVertical()">Reset vertically</button><br />
+            <button onclick="addHorizontal()">Make bigger horizontally</button>  <button onclick="resetHorizontal()">Reset horizontally</button>
+        </div>
+
+        <div id="verticalContent">
+            <p>test</p>
+            <p>test</p>
+            <p>test</p>
+            <p>test</p>
+            <p>test</p>
+            <p>test</p>
+        </div>
+
+        <div id="horizontalContent">
+            <span>test</span><span>test</span><span>test</span><span>test</span><span>test</span>
+        </div>
+    </div>
 </body>
 </html>
