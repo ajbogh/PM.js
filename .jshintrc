@@ -1,0 +1,92 @@
+{
+  // Based on JSHint Default Configuration File (as on JSHint website)
+  "maxerr": 50,
+
+  // Enforcing
+  "bitwise": false,
+  "camelcase": false,
+  "curly": true,
+  "eqeqeq": false,
+  "forin": true,
+  "freeze": true,
+  "immed": false,
+  "latedef": false,
+  "newcap": false,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "nonew": false,
+  "plusplus": false,
+  "quotmark": false,
+  // Quotation mark consistency:
+  //   false    : do nothing (default)
+  //   true     : ensure whatever is used is consistent
+  //   "single" : require single quotes
+  //   "double" : require double quotes
+  "undef": true,
+  "unused": true,
+  // Unused variables:
+  //   true     : all variables, last function parameter
+  //   "vars"   : all variables only
+  //   "strict" : all variables, all function parameters
+  "strict": true,
+  "maxparams": false,
+  "maxdepth": false,
+  "maxstatements": false,
+  "maxcomplexity": false,
+  "maxlen": false,
+  "varstmt": false,
+
+  // Relaxing
+  "asi": false,
+  "boss": false,
+  "debug": false,
+  "eqnull": false,
+  "esnext": false,
+  "moz": false,
+  // true: Allow Mozilla specific syntax (extends and overrides esnext features)
+  // (ex: `for each`, multiple try/catch, function expression…)
+  "evil": false,
+  "expr": false,
+  "funcscope": false,
+  "globalstrict": false,
+  "iterator": false,
+  "lastsemic": false,
+  "laxbreak": false,
+  "laxcomma": false,
+  "loopfunc": false,
+  "multistr": false,
+  "noyield": false,
+  "notypeof": false,
+  "proto": false,
+  "scripturl": false,
+  "shadow": false,
+  "sub": false,
+  "supernew": false,
+  "validthis": false,
+
+  // Environments
+  "browser": true,
+  "browserify": false,
+  "couch": false,
+  "devel": true,
+  "dojo": false,
+  "jasmine": false,
+  "jquery": false,
+  "mocha": true,
+  "mootools": false,
+  "node": false,
+  "nonstandard": false,
+  "phantom": false,
+  "prototypejs": false,
+  "qunit": false,
+  "rhino": false,
+  "shelljs": false,
+  "typed": false,
+  "worker": false,
+  "wsh": false,
+  "yui": false,
+
+  // Custom Globals
+  "globals": {}
+}
