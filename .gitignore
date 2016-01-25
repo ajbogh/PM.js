@@ -2,3 +2,4 @@ node_modules
 PM.sublime-project
 PM.sublime-workspace
 .idea
+npm-debug.log

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>pmmain.local</title>
-	<script type="text/javascript" src="/build/PM.js"></script>
+	<script type="text/javascript" src="//pmmain.local:8890/PM.js"></script>
 	<script>
 		/* This webpage hosted at http://mydomain.com/sample/index.html
 		 * will host the "parent website" for the "responder page" at otherdomain.com. 
@@ -21,14 +21,17 @@
 		// Note: These URLs won't work, but they will produce a friendly error message in the console 
 		// after a few seconds.
 		var iframes = PM.preloadUrls({
-			"BadUrlTest1":"http://www.google.com/test.html?test=true",
-			"BadUrlTest2":"http://www.google.com/test2.html"
+			"BadUrlTest1":"http://badurl.local/test.html?test=true",
+			"BadUrlTest2":"http://badurl.local/test2.html"
 		});
 
 		// You can then call PM like so:
 		PM.postMessage("BadUrlTest1", // iframe handle, from above preloadUrls call
 			"testaction", // action to execute on google.com/test.html (not a real webpage)
-			{my:"test", test:"is bad"} // some data to send
+			{my:"test", test:"is bad"}, // some data to send
+			function(){ // callback function or listener name
+				console.log("Couldn't load http://www.google.com/test.html?test=true because it's a bad URL. The page doesn't exist.");
+			}
 		);
 
 		// What if you don't want to worry about preloading URLs?
@@ -36,11 +39,10 @@
 		PM.postMessage("test3", // new handle to be registered
 			"testaction", // action to execute
 			{my:"test", test:"is good"}, // data to send
-			null, // callback function or listener name
+			null, //callback function not defined here
 			"http://pminner.local:8889/index.html" // webpage for otherdomain.com
 		);
 
-		// What's that weird null in there you say?
 		// Some people might want to execute a function when the request is complete with the result of the action.
 		// The callback parameter allows data from the other domain's action to be passed into a callback function.
 		// Note: in this example we only need the handle, not the URL because we've already registered the domain.

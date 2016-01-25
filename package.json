@@ -3,12 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-cssmin": "~0.6.1",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-qunit": "~0.2.2",
-    "grunt-yui-compressor": "~0.3.0",
     "gulp": "^3.9.0",
     "gulp-jshint": "^2.0.0",
     "gulp-minify": "0.0.5",
@@ -17,7 +11,6 @@
     "gulp-uglify": "^1.5.1",
     "gulp-webserver": "^0.9.1",
     "jshint": "^2.9.1",
-    "jshint-stylish": "^2.1.0",
-    "node-findup-sync": "~0.1.2"
+    "jshint-stylish": "^2.1.0"
   }
 }
