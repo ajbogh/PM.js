@@ -50,10 +50,58 @@
 			console.log("calling mycallback of parent window");
 			PM.postMessage("parent", "mycallback", {"test":"Success"}, "returntest");
 		}
+
+		//helper function
+		String.prototype.hashCode = function() {
+			var hash = 0, i, chr, len;
+			if (this.length === 0) return hash;
+			for (i = 0, len = this.length; i < len; i++) {
+				chr   = this.charCodeAt(i);
+				hash  = ((hash << 5) - hash) + chr;
+				hash |= 0; // Convert to 32bit integer
+			}
+			return hash;
+		};
+
+
+		//Now for the real API
+		PM.registerListener("login", function(accountInfo){
+			var account = sessionStorage.getItem('account');
+			if(accountInfo.data.username === account.username && accountInfo.data.password.hashCode() === account.password){
+				return account;
+			}else{
+				return false;
+			}
+		}).registerListener("deleteAccount", function(){
+			sessionStorage.removeItem('account');
+			return true;
+		}).registerListener("editAccount", function(accountInfo){
+            if(accountInfo.data.password){
+                accountInfo.data.password = accountInfo.data.password.hashCode();
+            }
+            console.log("----editAccount inner", accountInfo);
+			var account = sessionStorage.getItem('account');
+			if(account){
+				sessionStorage.setItem('account', JSON.stringify(accountInfo.data));
+				account = accountInfo.data;
+			}else{ //register
+				sessionStorage.setItem('account', JSON.stringify(accountInfo.data));
+				account = accountInfo;
+			}
+			console.log(account);
+			return account;
+		}).registerListener("getAccount", function(){
+			var account = sessionStorage.getItem('account');
+			if(account){
+                console.log("getAccount", account);
+				return JSON.parse(account);
+			}
+			return false;
+		});
 	</script>
 </head>
 <body>
-	Now you see me!
-
+	This iframe has no responsibilities other than providing a Javascript API. In your domain it could connect to your
+	server-side APIs to give other domains a way to access your services.
 </body>
 </html>

@@ -2,6 +2,16 @@
 <html>
 <head>
 	<title>pmmain.local</title>
+
+    <style>
+        .hide {
+            display: none;
+        }
+        pre {
+            border: 1px solid black;
+        }
+    </style>
+
 	<script type="text/javascript" src="//pmmain.local:8890/PM.js"></script>
 	<script>
 		/* This webpage hosted at http://mydomain.com/sample/index.html
@@ -69,17 +79,148 @@
 				console.log(data)
 			}
 		);
+
+
+
+
+        //these functions are for the user account API.
+        function showLogin(){
+            document.getElementById("login").style.display = "block";
+            document.getElementById("edit").style.display = "none";
+            document.getElementById("accountInfo").style.display = "none";
+        }
+        function showRegisterAccount(){
+            document.getElementById("login").style.display = "none";
+            document.getElementById("edit").style.display = "block";
+            document.getElementById("accountInfo").style.display = "none";
+        }
+
+        function showEditAccount(){
+            var usernameElem = document.editForm.username;
+            var displayNameElem = document.editForm.displayName;
+
+            PM.postMessage("test3", // handle
+                "getAccount", // action to execute
+                null,
+                function(accountInfo){
+                    usernameElem.value = accountInfo.data.username;
+                    displayNameElem.value = accountInfo.data.displayName;
+                }
+            );
+
+            document.getElementById("login").style.display = "none";
+            document.getElementById("edit").style.display = "block";
+            document.getElementById("accountInfo").style.display = "none";
+        }
+
+        function login(){
+            PM.postMessage("test3", // handle
+                editOrRegister, // action to execute
+                formData,
+                function(accountInfo){
+                    if(accountInfo){
+                        document.getElementById("edit").style.display = "none";
+                    }
+                }
+            );
+            return false;
+        }
+
+        function editAccount(){
+            var formData = {};
+            for(var i = 0; i < document.editForm.length; i++){
+                if(document.editForm[i].tagName === "INPUT"){
+                    formData[document.editForm[i].name] = document.editForm[i].value;
+                }
+            }
+console.log("----editAccount1", formData);
+            PM.postMessage("test3", // handle
+                "editAccount", // action to execute
+                formData,
+                function(accountInfo){
+                    console.log("----editAccount2", accountInfo);
+                    if(accountInfo){
+                        document.getElementById("edit").style.display = "none";
+                        document.editForm.username.value = null;
+                        document.editForm.displayName.value = null;
+                        document.editForm.password.value = null;
+                    }
+                }
+            );
+
+            return false;
+        }
+
+        function deleteAccount(){
+            PM.postMessage("test3", // handle
+                "deleteAccount", // action to execute
+                null,
+                function(accountDeleted){
+                    if(accountDeleted){
+                        console.log("Account deleted!");
+                    }
+                }
+            );
+        }
+
+        function getAccountInfo(){
+            PM.postMessage("test3", // handle
+                "getAccount", // action to execute
+                null,
+                function(accountInfo){
+                    document.getElementById("accountInfo").innerHTML = JSON.stringify(accountInfo, undefined, 2);
+                }
+            );
+        }
 	</script>
 </head>
 <body>
+    <nav>
+        <h1>Examples</h1>
+        <a href="index.html">Resize iframe</a>
+    </nav>
+
+    <h1>User Account API</h1>
 	<p>Use the buttons below to test the API registered on the other domain. *All information is stored in sessionStorage and is kept
 	on your computer. There is no actual registration or login process external to your own system.</p>
 
-	<button>Login</button>
-	<button>Register</button>
-	<button>Delete Account</button>
-	<button>Get Account Info</button>
-	<div id="accountInfo"></div>
+	<button onclick="showLogin()">Login</button>
+	<button onclick="showRegisterAccount()">Register</button>
+    <button onclick="showEditAccount()">Edit Account</button>
+	<button onclick="deleteAccount()">Delete Account</button>
+	<button onclick="getAccountInfo()">Get Account Info</button>
+
+    <div id="login" class="hide">
+        <form name="loginForm" onsubmit="return login()">
+            <p>
+                <label>Username: <input type="text" name="username" /></label>
+            </p>
+            <p>
+                <label>Password: <input type="text" name="password" /></label>
+            </p>
+            <p>
+                <button>Login</button>
+            </p>
+        </form>
+    </div>
+    <div id="edit" class="hide">
+        <form name="editForm" onsubmit="return editAccount()">
+            <p>
+                <label>Username: <input type="text" name="username" /></label>
+            </p>
+            <p>
+                <label>Password: <input type="text" name="password" /></label>
+            </p>
+            <p>
+                <label>DisplayName: <input type="text" name="displayName" /></label>
+            </p>
+            <p>
+                <button>Submit</button>
+            </p>
+        </form>
+    </div>
+    <h2>Account Info:</h2>
+	<pre id="accountInfo"></pre>
 
 	<p>There is an iframe shown below. This was manually created in the HTML, but you can use PM.preloadUrls instead. This
 	is showing how you can use existing iframes with PM too, but PM.js is smart enough to create them on its own.</p>
