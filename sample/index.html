@@ -164,7 +164,7 @@ console.log("----editAccount1 outer", formData);
         }
 
         function getAccountInfo(){
-            console.log("----getAccountInfo");
+            console.log("----getAccountInfo", PM._registeredListeners, Object.keys(PM._registeredListeners));
             PM.postMessage("test3", // handle
                 "getAccount", // action to execute
                 null, //no data

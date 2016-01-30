@@ -100,25 +100,33 @@ function PMClass() {
         }
         var result = this._registeredListeners[action].call(this, oeData, e);
 
+        //post the data back to the other domain.
         if(oeData.callback){
             this._handlePMCallback(oeData, e, result);
         }
-        if(oeData.deleteCallback){
+        //we only delete registeredListeners in the calling domain, or the one without the callback.
+        if(!oeData.callback && oeData.deleteCallback){
             delete this._registeredListeners[action];
         }
     };
 
+    /**
+     * This private function posts the data back to the calling domain.
+     * @param {object} oeData The original postMessage event data.
+     * @param {object} e The postMessage event object.
+     * @param {any} result A result to post back to the parent caller.
+     * @private
+     * @todo :test
+     */
     this._handlePMCallback = function(oeData, e, result){
         //fix result
         if(typeof result === "undefined"){ result = null; }
 
         var pmData = {
             action: oeData.callback,
-            data: this.fixPMData(result)
+            data: this.fixPMData(result),
+            deleteCallback: oeData.deleteCallback || false
         };
-        if(oeData.deleteCallback){
-            pmData.deleteCallback = true;
-        }
 
         var origin = e.origin;
 
