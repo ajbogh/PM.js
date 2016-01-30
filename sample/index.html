@@ -103,8 +103,8 @@
                 "getAccount", // action to execute
                 null,
                 function(accountInfo){
-                    usernameElem.value = accountInfo.data.username;
-                    displayNameElem.value = accountInfo.data.displayName;
+                    usernameElem.value = accountInfo.data.username || "";
+                    displayNameElem.value = accountInfo.data.displayName || "";
                 }
             );
 
@@ -113,27 +113,39 @@
             document.getElementById("accountInfo").style.display = "none";
         }
 
-        function login(){
+        function login(event){
+			event.preventDefault();
+
+			var formData = {};
+			for(var i = 0; i < document.loginForm.length; i++){
+				if(document.loginForm[i].tagName === "INPUT"){
+					formData[document.loginForm[i].name] = document.loginForm[i].value;
+				}
+			}
+
             PM.postMessage("test3", // handle
-                editOrRegister, // action to execute
+                "login", // action to execute
                 formData,
                 function(accountInfo){
                     if(accountInfo){
-                        document.getElementById("edit").style.display = "none";
+						console.log("login callback", accountInfo);
+						document.getElementById("accountInfo").innerHTML = JSON.stringify(accountInfo, undefined, 2);
+						document.getElementById("accountInfo").style.display = "block";
                     }
                 }
             );
             return false;
         }
 
-        function editAccount(){
+        function editAccount(event){
+			event.preventDefault();
             var formData = {};
             for(var i = 0; i < document.editForm.length; i++){
                 if(document.editForm[i].tagName === "INPUT"){
                     formData[document.editForm[i].name] = document.editForm[i].value;
                 }
             }
-console.log("----editAccount1 outer", formData);
+
             PM.postMessage("test3", // handle
                 "editAccount", // action to execute
                 formData,
@@ -171,6 +183,7 @@ console.log("----editAccount1 outer", formData);
                 function(accountInfo){
                     console.log('---getAccount outer');
                     document.getElementById("accountInfo").innerHTML = JSON.stringify(accountInfo, undefined, 2);
+					document.getElementById("accountInfo").style.display = "block";
                 }
             );
         }
@@ -193,7 +206,7 @@ console.log("----editAccount1 outer", formData);
 	<button onclick="getAccountInfo()">Get Account Info</button>
 
     <div id="login" class="hide">
-        <form name="loginForm" onsubmit="return login()">
+        <form name="loginForm" onsubmit="return login(event)">
             <p>
                 <label>Username: <input type="text" name="username" /></label>
             </p>
@@ -206,7 +219,7 @@ console.log("----editAccount1 outer", formData);
         </form>
     </div>
     <div id="edit" class="hide">
-        <form name="editForm" onsubmit="return editAccount()">
+        <form name="editForm" onsubmit="return editAccount(event)">
             <p>
                 <label>Username: <input type="text" name="username" /></label>
             </p>

@@ -66,10 +66,20 @@
 
 		//Now for the real API
 		PM.registerListener("login", function(accountInfo){
+			console.log("login inner");
 			var account = sessionStorage.getItem('account');
+			if(account){
+				try {
+					account = JSON.parse(account);
+				} catch(e){
+					return false;
+				}
+			}
+
 			if(accountInfo.data.username === account.username && accountInfo.data.password.hashCode() === account.password){
 				return account;
 			}else{
+				console.log("---returning false");
 				return false;
 			}
 		}).registerListener("deleteAccount", function(){
@@ -82,8 +92,10 @@
             console.log("----editAccount inner", accountInfo);
 			var account = sessionStorage.getItem('account');
 			if(account){
-				sessionStorage.setItem('account', JSON.stringify(accountInfo.data));
-				account = accountInfo.data;
+				account = JSON.parse(account);
+				account.username = accountInfo.data.username;
+				account.displayName = accountInfo.data.displayName;
+				sessionStorage.setItem('account', JSON.stringify(account));
 			}else{ //register
 				sessionStorage.setItem('account', JSON.stringify(accountInfo.data));
 				account = accountInfo;
