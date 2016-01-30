@@ -413,7 +413,6 @@ function PMClass() {
         var parsedIframe = this.parseUrl(this._iframes[handle].src),
             domainPart = parsedIframe.hostname+(parsedIframe.port?":"+parsedIframe.port:""),
             origin = parsedIframe.protocol+"//"+domainPart;
-console.log("iframes", this._iframes);
         pmData = this.fixPMData(pmData);
         this._handlers[handle].postMessage(pmData, origin);
     };

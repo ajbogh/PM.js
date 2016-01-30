@@ -133,12 +133,12 @@
                     formData[document.editForm[i].name] = document.editForm[i].value;
                 }
             }
-console.log("----editAccount1", formData);
+console.log("----editAccount1 outer", formData);
             PM.postMessage("test3", // handle
                 "editAccount", // action to execute
                 formData,
                 function(accountInfo){
-                    console.log("----editAccount2", accountInfo);
+                    console.log("----editAccount2 outer", accountInfo);
                     if(accountInfo){
                         document.getElementById("edit").style.display = "none";
                         document.editForm.username.value = null;
@@ -157,17 +157,19 @@ console.log("----editAccount1", formData);
                 null,
                 function(accountDeleted){
                     if(accountDeleted){
-                        console.log("Account deleted!");
+                        console.log("Account deleted! outer");
                     }
                 }
             );
         }
 
         function getAccountInfo(){
+            console.log("----getAccountInfo");
             PM.postMessage("test3", // handle
                 "getAccount", // action to execute
-                null,
+                null, //no data
                 function(accountInfo){
+                    console.log('---getAccount outer');
                     document.getElementById("accountInfo").innerHTML = JSON.stringify(accountInfo, undefined, 2);
                 }
             );

@@ -91,9 +91,10 @@
 			console.log(account);
 			return account;
 		}).registerListener("getAccount", function(){
+			console.log("getAccount inner");
 			var account = sessionStorage.getItem('account');
 			if(account){
-                console.log("getAccount", account);
+                console.log("getAccount inner", account);
 				return JSON.parse(account);
 			}
 			return false;
