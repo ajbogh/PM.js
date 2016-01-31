@@ -38,13 +38,5 @@ module.exports = {
                 }))
                 .pipe(gulp.dest('./build'));
         }
-    },
-
-    build: function(gulp){
-        return function (){
-            gulp.task('build', function () {
-                console.log("Build done!");
-            });
-        };
     }
 };
