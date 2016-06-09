@@ -23,6 +23,24 @@ function PMClass() {
     this._intervalTimeout = this._defaultIntervalTimeout;
     this._maximumIntervals = 50; //total of 5 second wait time for iframes.
 
+    /**
+     * initChildIframe registers the parent window as a handle and iframe
+     * so that the child frame can post messages up to the parent.
+     * @param {string} parentUrl - The URL of the parent webpage. The protocol, domain, and port is required if the port is not 443 or 80.
+     * @return {object} The PM object to be used for chaining calls.
+     */
+    this.initChildIframe = function(parentUrl){
+        this._handlers.parent = window.parent;
+        this._iframes.parent = {};
+        //need to store the parent URL since we don't actually have an iframe.
+        this._iframes.parent.src = parentUrl;
+        return this;
+    };
+
+
+    /**
+     * init loads the default parameters and sets up the system for communication.
+     */
     this.init = function(){
         //loads a ready callback (and possibly others in the future)
         this._loadDefaultMethods();
@@ -37,25 +55,12 @@ function PMClass() {
                 if(hash.keyExists("referrer")){
                     var referrer = hash.get("referrer");
                     var parsedReferrer = self.parseUrl(referrer);
-                    window.parent.postMessage({action:"ready", handle:hash.get("handle")},
-                        parsedReferrer.protocol + '//' + parsedReferrer.hostname + (parsedReferrer.port?":"+parsedReferrer.port:""));
+                    var parentUrl = parsedReferrer.protocol + '//' + parsedReferrer.hostname + (parsedReferrer.port?":"+parsedReferrer.port:"");
+                    window.parent.postMessage({action:"ready", handle:hash.get("handle")}, parentUrl);
+                    self.initChildIframe(parentUrl);
                 }
             });
         }
-    };
-
-    /**
-     * initChildIframe registers the parent window as a handle and iframe
-     * so that the child frame can post messages up to the parent.
-     * @param {string} parentUrl - The URL of the parent webpage. The protocol, domain, and port is required if the port is not 443 or 80.
-     * @return {object} The PM object to be used for chaining calls.
-     */
-    this.initChildIframe = function(parentUrl){
-        this._handlers.parent = window.parent;
-        this._iframes.parent = {};
-        //need to store the parent URL since we don't actually have an iframe.
-        this._iframes.parent.src = parentUrl;
-        return this;
     };
 
     /**
@@ -369,6 +374,12 @@ function PMClass() {
             this._postMessage(handle, action, data, callbackAction);
         }
     };
+    /**
+     * An alias for PM.postMessage
+     */
+    this.send = function(handle, action, data, callbackAction, url){
+        this.postMessage(handle, action, data, callbackAction, url);
+    };
 
     /**
      * Waits for an iframe to become ready, then calls the postMessage function.
@@ -444,8 +455,7 @@ function PMClass() {
      * @param {string} actionName - a name to register the function with.
      * @param {function} func - a function to execute when a request is caught with the correct name defined.
      *     The postMessage data parameter will be passed to this function.
-     * @param {event} e the original event object
-     * @return {object} The JSON object containing all registered listeners
+     * @return {PM} The PM class
      */
     this.registerListener = function (actionName, func) {
         if(typeof func !== "function"){
@@ -454,12 +464,30 @@ function PMClass() {
         this._registeredListeners[actionName] = func;
         return this;
     };
+    /**
+     * An alias for registerListener
+     * @param {string} actionName - a name to register the function with.
+     * @param {function} func - a function to execute when a request is caught with the correct name defined.
+     *     The postMessage data parameter will be passed to this function.
+     * @return {PM} The PM class
+     */
+    this.on = function(actionName, func){
+       return this.registerListener(actionName, func);
+    };
     this.unregisterListener = function(actionName){
         if(typeof this._registeredListeners[actionName] === "undefined"){
             return this;
         }
         delete this._registeredListeners[actionName];
         return this;
+    };
+    /**
+     * An alias for unregisterListener
+     * @param {string} actionName - a named listener to unregister.
+     * @return {PM} The PM class
+     */
+    this.off = function(actionName){
+        return this.unregisterListener(actionName);
     };
 
     /**

@@ -1,0 +1,61 @@
+<html>
+<head>
+    <title>User Form</title>
+    <style>
+        .hide {
+            display: none;
+        }
+        pre {
+            border: 1px solid black;
+        }
+    </style>
+    <script type="text/javascript" src="/build/PM.js"></script>
+    <script type="text/javascript" src="js/userForm.js"></script>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Back to index</a>
+    </nav>
+    <h1>User Account API</h1>
+    <p>Use the buttons below to test the API registered on the other domain. *All information is stored in sessionStorage and is kept
+        on your computer. There is no actual registration or login process external to your own system.</p>
+
+    <button onclick="showRegisterAccount()">Register</button>
+    <button onclick="showLogin()">Login</button>
+    <button onclick="showEditAccount()">Edit Account</button>
+    <button onclick="deleteAccount()">Delete Account</button>
+    <button onclick="getAccountInfo()">Get Account Info</button>
+
+    <div id="login" class="hide">
+        <form name="loginForm" onsubmit="return login(event)">
+            <p>
+                <label>Username: <input type="text" name="username" /></label>
+            </p>
+            <p>
+                <label>Password: <input type="text" name="password" /></label>
+            </p>
+            <p>
+                <button>Login</button>
+            </p>
+        </form>
+    </div>
+    <div id="edit" class="hide">
+        <form name="editForm" onsubmit="return editAccount(event)">
+            <p>
+                <label>Username: <input type="text" name="username" /></label>
+            </p>
+            <p>
+                <label>Password: <input type="text" name="password" /></label>
+            </p>
+            <p>
+                <label>DisplayName: <input type="text" name="displayName" /></label>
+            </p>
+            <p>
+                <button>Submit</button>
+            </p>
+        </form>
+    </div>
+    <h2 id="accountInfoHeader" class="hide">Account Info:</h2>
+    <pre id="accountInfo" class="hide"></pre>
+</body>
+</html>

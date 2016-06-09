@@ -8,3 +8,5 @@ gulp.task('build', ['jshint', 'copy', 'min']);
 gulp.task('serve', ['build'], require('./gulp-tasks/serve')(gulp));
 
 gulp.task('watch', ['serve'], require('./gulp-tasks/watch').watch(gulp));
+
+gulp.task('default' ['watch']);

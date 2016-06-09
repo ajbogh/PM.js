@@ -6,32 +6,16 @@
         }
     </style>
 
-    <script type="text/javascript" src="//pmmain.local:8890/PM.js"></script>
+    <script type="text/javascript" src="/build/PM.js"></script>
 
-    <script>
-        // Add some security for the parent website's postMessage listener.
-        // Note: This does not interfere with existing postMessage systems 
-        // such as Google or Facebook.
-        PM.addAuthorizedUrl([
-            "http://pminner.local:8889"
-        ]);
-
-        // Register the callbacks
-        // Note: the functions can be previously defined, they don't have to be anonymous.
-        PM.registerListener("resizeIframe", function(response){
-            console.log("resizing iframe to: "+response.data.width+"x"+response.data.height);
-            var iframe = document.getElementById('iframe');
-            iframe.style.height = response.data.height;
-            iframe.style.width = response.data.width;
-        });
-    </script>
+    <script src="js/resizeiframe.js"></script>
 </head>
 <body>
     <nav>
         <a href="index.html">Back to index</a>
     </nav>
     <p>The iframe below has buttons which will add more or less content to the body. The iframe will report the new
-    size to the parent website so that the parent can resize the iframe dynamically. This is useful for thigs like modal
+    size to the parent website so that the parent can resize the iframe dynamically. This is useful for things like modal
     windows with iframes embedded within.</p>
     <!-- whatever body you want. -->
     <iframe id="iframe" scrolling="no" src="http://pminner.local:8889/resizeiframeinner.html"></iframe>
