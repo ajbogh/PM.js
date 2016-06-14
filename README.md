@@ -143,8 +143,6 @@ Browse to the sample directory and start the app using NodeJS.
 
 Open your web browser to http://pmmain.local:8888 and open your console to see messages from the inner domain.
 
-You can also see how inner domain can control a visible iframe, or any other part of the site using callback functions at this URL: http://pmmain.local:8888/resizeiframe.html. The iframe will dynamically change height based on the size of the content within it.
-
 Developers
 ==========
 
@@ -156,15 +154,15 @@ Requirements
 	sudo apt-get update
 	sudo apt-get install nodejs
 
-2. grunt-cli
+2. gulp
 
-	sudo npm install -g grunt-cli
+	sudo npm install -g gulp
 
 Building
 --------
 
-1) Open the terminal (or use an IDE that can integrate with nodejs or grunt) and cd to the PM directory.
+1) Open the terminal (or use an IDE that can integrate with nodejs or gulp) and cd to the PM directory.
 
 2) Issue the following command:
 
-	> grunt
+	> gulp

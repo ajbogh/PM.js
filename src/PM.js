@@ -30,7 +30,8 @@ function PMClass() {
      * @return {object} The PM object to be used for chaining calls.
      */
     this.initChildIframe = function(parentUrl){
-        this._handlers.parent = window.parent;
+        //window.opener handles popups
+        this._handlers.parent = window.opener || window.parent;
         this._iframes.parent = {};
         //need to store the parent URL since we don't actually have an iframe.
         this._iframes.parent.src = parentUrl;
