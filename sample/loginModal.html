@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Login Modal</title>
+    <script type="text/javascript" src="/build/PM.js"></script>
+    <script type="text/javascript" src="js/loginModal.js"></script>
+
+    <!-- This shows how the other domain can control the modal interface. You don't need this part. -->
+    <script type="text/javascript" src="//pminner.local:8889/js/loginModalUI.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="//pminner.local:8889/css/loginModalUI.css">
+
+    <script>
+        var lmui = new LMUI();
+    </script>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Back to index</a>
+    </nav>
+
+    <h1>Login Modal Example</h1>
+
+    <p id="login"><a href="" onclick="return lmui.login(event)">Login</a></p>
+
+    <p id="modifyUser"><a href="" onclick="return modifyUser(event)">Modify User</a></p>
+
+    <p id="message"></p>
+</body>
+</html>

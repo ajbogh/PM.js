@@ -1,0 +1,42 @@
+body {
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    color: white;
+    padding: 10px;
+    min-width: 150px;
+    font-weight: bold;
+}
+
+button.secondary {
+    background-color: dodgerblue;
+}
+button.primary {
+    background-color: green;
+}
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+.modal-footer {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: calc(100% - 30px);
+}
+label {
+    font-weight: bold;
+}
+input {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: normal;
+}

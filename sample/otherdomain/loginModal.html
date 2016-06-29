@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <title>Login Modal</title>
+
+    <script type="text/javascript" src="/build/PM.js"></script>
+    <script src="js/loginModal.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/loginModal.css">
+</head>
+
+<body>
+    <h1>Login!</h1>
+
+    <p>Use the username "test" and the password "test" to login below.</p>
+
+    <p><label>Username: <br /><input type="text" name="username" id="username" value="test" /></label></p>
+    <p><label>Password: <br /><input type="password" name="password" id="password" value="test" /></label></p>
+
+    <div class="modal-footer">
+        <button class="secondary left" onclick="return closeModal(event)">Cancel</button>
+        <button class="primary right" onclick="return login(event)">Login</button>
+    </div>
+</body>
+
+</html>
