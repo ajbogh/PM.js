@@ -1,4 +1,18 @@
 PM.addAuthorizedUrl("http://pminner.local:8889");
 
-//We might want to preload the URL because the other domain's imported JS file will be setting up some listeners.
-//PM.preloadUrl("testHandle", "http://pminner.local:8889/loginModal.html");
+function authorizeUser(data){
+    fillUserInfo(data.data);
+}
+PM.on('authorizeUser', authorizeUser);
+
+function userModified(data){
+    fillUserInfo(data.data);
+}
+PM.on('userModified', userModified);
+
+
+
+function fillUserInfo(data){
+    document.getElementById("userInfoContent").style.display = "block";
+    document.getElementById("userInfo").innerHTML = JSON.stringify(data, null, 2);
+}
