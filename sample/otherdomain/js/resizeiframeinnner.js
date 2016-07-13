@@ -5,9 +5,7 @@ PM.addAuthorizedUrl([
 function changeHeight(){
     var element = document.getElementById("content")
     var clientRect = element.getBoundingClientRect();
-    width = clientRect.width,
-        height = clientRect.height,
-        marginX = clientRect.left,
+    var marginX = clientRect.left,
         marginY = clientRect.top;
 
     PM.postMessage("parent", "resizeIframe", {

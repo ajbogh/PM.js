@@ -8,12 +8,24 @@
     background: #fff;
     box-shadow: 0 0 2em rgba(0, 0, 0, 0.5);
     border-radius: 15px;
+
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+    height: 0;
+}
+
+#lmui-modal.lmui-modal-active, #lmui-modal-background.lmui-modal-active {
+    opacity: 1;
 }
 
 #lmui-modal-background {
     background: rgba(0, 0, 0, 0.5);
     height: 100%;
     width: 100%;
+
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+    height: 0;
 }
 
 #lmui-close-button {

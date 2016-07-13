@@ -1,6 +1,7 @@
 body {
     padding: 15px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 button {
@@ -23,11 +24,8 @@ button.primary {
 .left {
     float: left;
 }
-.modal-footer {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    width: calc(100% - 30px);
+.clearfix {
+    clear: both;
 }
 label {
     font-weight: bold;
@@ -39,4 +37,11 @@ input {
     padding: 12px;
     font-size: 16px;
     font-weight: normal;
+}
+
+#message {
+    display: none;
+    color: red;
+    border: 1px solid red;
+    padding: 5px;
 }

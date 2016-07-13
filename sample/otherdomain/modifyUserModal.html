@@ -1,1 +1,45 @@
-<h1>Modify User</h1>
+<html>
+
+<head>
+    <title>Login Modal / Modify User</title>
+
+    <script type="text/javascript" src="/build/PM.js"></script>
+    <script src="js/loginModal.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/loginModal.css">
+</head>
+
+<body>
+    <div id="content">
+        <h1>Modify User</h1>
+
+        <p>Use the username "test" and the password "test" to login below.</p>
+
+        <p><label>First Name: <br /><input type="text" name="firstName" id="firstName" /></label></p>
+        <p><label>Last Name: <br /><input type="text" name="lastName" id="lastName" /></label></p>
+        <p>
+            <label>Gender: <br />
+                <select name="gender" id="gender">
+                    <option>M</option>
+                    <option>F</option>
+                    <option>Other</option>
+                </select>
+            </label>
+        </p>
+        <p><label>DOB: <br /><input type="date" name="dob" id="dob" /></label></p>
+        <p><label>Email: <br /><input type="email" name="email" id="email" /></label></p>
+
+        <div class="modal-footer">
+            <button class="secondary left" onclick="return closeModal(event)">Cancel</button>
+            <button class="primary right" onclick="return modifyUser(event)">Update</button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <script>
+        // Load the user info on the form
+        loadUserInfoOnForm();
+    </script>
+</body>
+
+</html>

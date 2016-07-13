@@ -4,23 +4,31 @@
     <title>Login Modal</title>
 
     <script type="text/javascript" src="/build/PM.js"></script>
-    <script src="js/loginModal.js"></script>
+    <!-- the page script is at the end of this file -->
 
     <link rel="stylesheet" type="text/css" href="css/loginModal.css">
 </head>
 
-<body>
-    <h1>Login!</h1>
+<body id="body">
+    <div id="content">
+        <h1>Login!</h1>
 
-    <p>Use the username "test" and the password "test" to login below.</p>
+        <p>Use the username "test" and the password "test" to login below.</p>
 
-    <p><label>Username: <br /><input type="text" name="username" id="username" value="test" /></label></p>
-    <p><label>Password: <br /><input type="password" name="password" id="password" value="test" /></label></p>
+        <p id="message"></p>
 
-    <div class="modal-footer">
-        <button class="secondary left" onclick="return closeModal(event)">Cancel</button>
-        <button class="primary right" onclick="return login(event)">Login</button>
+        <p><label>Username: <br /><input type="text" name="username" id="username" value="test" /></label></p>
+        <p><label>Password: <br /><input type="password" name="password" id="password" value="test" /></label></p>
+
+        <div class="modal-footer">
+            <button class="secondary left" onclick="return closeModal(event)">Cancel</button>
+            <button class="primary right" onclick="return login(event)">Login</button>
+        </div>
+        <div class="clearfix"></div>
     </div>
+
+    <!-- page script is here to help with getting the page size -->
+    <script src="js/loginModal.js"></script>
 </body>
 
 </html>

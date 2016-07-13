@@ -5,15 +5,16 @@ LMUI.prototype.openModal = function(page){
 
     var modal = this.buildModal();
     this.navigateToPage(page);
-    modal.style.display = "block";
 };
 
 LMUI.prototype.closeModal = function(){
     var modal = document.getElementById("lmui-modal");
     var bg = document.getElementById("lmui-modal-background");
     if(modal){
-        modal.style.display = "none";
-        bg.style.display = "none";
+        modal.className = "";
+        bg.className = "";
+        //modal.style.display = "none";
+        //bg.style.display = "none";
     }
 };
 
@@ -52,12 +53,12 @@ LMUI.prototype.buildModal = function(){
         bg.style.top = 0;
         bg.style.left = 0;
 
+        //modal.style.display = "none";
+        //bg.style.display = "none";
+
         document.body.appendChild(bg);
 
         document.body.appendChild(modal);
-    }else{
-        modal.style.display = "block";
-        bg.style.display = "block";
     }
 
     // sets up the listener for the closeModal method
@@ -66,11 +67,39 @@ LMUI.prototype.buildModal = function(){
         self.closeModal();
     });
 
+    PM.on("resizeIframe", function(response){
+        console.log("resizing iframe to: "+response.data.width+"x"+response.data.height);
+        var iframe = document.getElementById('lmui-iframe');
+        var modal = document.getElementById('lmui-modal');
+        var bg = document.getElementById("lmui-modal-background");
+
+        iframe.style.height = response.data.height;
+        //iframe.style.width = response.data.width;
+        modal.style.height = iframe.style.height;
+
+        modal.className = "lmui-modal-active";
+        bg.className = "lmui-modal-active";
+        //modal.style.display = "block";
+        //bg.style.display = "block";
+    });
+
     return modal;
 };
 
 LMUI.prototype.navigateToPage = function(page){
-    document.getElementById("lmui-iframe").setAttribute("src", PM.formatIframeUrl('modal', "http://pminner.local:8889/"+page+".html"));
+    var iframe = document.getElementById("lmui-iframe");
+    var modal = document.getElementById('lmui-modal');
+    var bg = document.getElementById("lmui-modal-background");
+    var src = iframe.getAttribute("Src");
+    var newSrc = PM.formatIframeUrl('modal', "http://pminner.local:8889/"+page+".html");
+    if(src !== newSrc) {
+        document.getElementById("lmui-iframe").setAttribute("src", PM.formatIframeUrl('modal', "http://pminner.local:8889/"+page+".html"));
+    }else{
+        modal.className = "lmui-modal-active";
+        bg.className = "lmui-modal-active";
+        //modal.style.display = "block";
+        //bg.style.display = "block";
+    }
 };
 
 
