@@ -81,6 +81,16 @@ Add some functions to listen for. The other website will be making requests to t
     	console.log("in othertest");
     	console.log(data);
     });
+    
+    // Alternatively
+    
+    PM.on("test", function(data){
+        console.log("got test");
+        console.log(data);
+    }).on("othertest", function(data){
+        console.log("in othertest");
+        console.log(data);
+    });
 
 Making a Request
 ----------------
@@ -88,6 +98,10 @@ Making a Request
 Posting a message is a one-line request.
 
     PM.postMessage("testhandle", "test", {my:"test", test:"is good"}, "callbackMethod", "http://otherdomain.com/PMWebpage.html");
+    
+    // Alternatively
+    
+    PM.send("testhandle", "test", {my:"test", test:"is good"}, "callbackMethod", "http://otherdomain.com/PMWebpage.html");
 
 Let's look at the parameters a little.
 
