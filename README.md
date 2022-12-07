@@ -163,20 +163,16 @@ Developers
 Requirements
 ------------
 
-1. nodejs (instructions for Ubuntu)
+1. nodejs
+2. nvm - in order to match the node version
 
-	sudo apt-get update
-	sudo apt-get install nodejs
-
-2. gulp
-
-	sudo npm install -g gulp
-
-Building
+Development
 --------
 
 1) Open the terminal (or use an IDE that can integrate with nodejs or gulp) and cd to the PM directory.
 
 2) Issue the following command:
 
-	> gulp
+	> npm run watch
+
+3) Open a browser to https://localhost:8000 and review the console.
