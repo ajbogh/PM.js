@@ -1,0 +1,7 @@
+build
+lib
+gulp-tasks
+gulpfile.js
+tests
+/*.js
+*.html

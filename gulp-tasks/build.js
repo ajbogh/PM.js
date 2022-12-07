@@ -7,7 +7,7 @@ var rename = require('gulp-rename');
 module.exports = {
     jshint: function (gulp) {
         return function () {
-            return gulp.src('./src/*.js')
+            return gulp.src('./src/*.(m)?[tj]s')
                 .pipe(jshint('.jshintrc'))
                 .pipe(jshint.reporter('jshint-stylish'))
                 .pipe(jshint.reporter('fail'))
@@ -21,7 +21,7 @@ module.exports = {
     //copy to build
     copy: function(gulp){
         return function () {
-            return gulp.src('./src/*.js')
+            return gulp.src('./src/*.mjs')
                 .pipe(gulp.dest('./build'));
         }
     },
@@ -29,7 +29,7 @@ module.exports = {
     //minify to build
     minify: function(gulp){
         return function () {
-            return gulp.src('./src/*.js')
+            return gulp.src('./src/*.mjs')
                 .pipe(uglify({
                     mangle: true
                 }))

@@ -1,17 +1,45 @@
 {
-  "name": "pm",
+  "name": "@ajbogh/pm.js",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "scripts": {
+    "build_old": "gulp build",
+    "lint": "eslint .",
+    "copy": "cp src/PM.mjs build/",
+    "min": "uglifyjs --compress --output build/PM.min.mjs -- src/PM.mjs",
+    "build": "run-p copy min",
+    "serve:parent": "node server-parent.js",
+    "serve:child": "node server-child.js",
+    "dev": "run-p copy min && run-p serve:parent serve:child",
+    "watch": "npm-watch dev",
+    "serve_old": "gulp serve",
+    "start_old": "gulp",
+    "watch_old": "gulp watch"
+  },
+  "watch": {
+    "dev": {
+      "patterns": [
+        "src",
+        "sample"
+      ],
+      "extensions": "html,mjs,js"
+    }
+  },
   "devDependencies": {
-    "browser-sync": "^2.11.1",
-    "gulp": "^3.9.1",
-    "gulp-jshint": "^2.0.0",
-    "gulp-minify": "0.0.5",
-    "gulp-notify": "^2.2.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.1",
+    "browser-sync": "^2.27.10",
+    "eslint": "^8.25.0",
+    "express": "^4.18.2",
+    "gulp": "^4.0.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-minify": "^3.1.0",
+    "gulp-notify": "^4.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
     "gulp-webserver": "^0.9.1",
-    "jshint": "^2.9.1",
-    "jshint-stylish": "^2.1.0"
+    "jshint": "^2.13.5",
+    "jshint-stylish": "^2.2.1",
+    "npm-run-all": "^4.1.5",
+    "npm-watch": "^0.11.0",
+    "uglify-js": "^3.17.3"
   }
 }

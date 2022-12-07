@@ -8,11 +8,11 @@
 function PMClass() {
     'use strict';
 
-    //check for existing PM
-    if(PM){
-        //PM already exists, just return it.
-        return PM;
-    }
+    // //check for existing PM
+    // if(PM){
+    //     //PM already exists, just return it.
+    //     return PM;
+    // }
 
     this._registeredListeners = {}; //functions to execute
     this._handlers = {}; //iframe postMessage objects to communicate with
@@ -196,7 +196,7 @@ function PMClass() {
         }
         var i;
         for(i in urlArray){
-            if(urlArray.hasOwnProperty(i)){
+            if(Object.prototype.hasOwnProperty.call(urlArray, i)){
                 this.addAuthorizedUrl(urlArray[i]);
             }
         }
@@ -293,7 +293,7 @@ function PMClass() {
         var iframeObj = {};
         for(var i in urls){
             //skip properties that are not its own
-            if(!urls.hasOwnProperty(i)){ continue; }
+            if(!Object.prototype.hasOwnProperty.call(urls, i)){ continue; }
 
             iframeObj[i] = this.preloadUrl(i, urls[i]);
         }
@@ -539,7 +539,7 @@ function PMClass() {
         //cleans up all iframes
         var success = true;
         for(var i in iframes){
-            if(!iframes.hasOwnProperty(i)){ continue; }
+            if(!Object.prototype.hasOwnProperty.call(iframes, i)){ continue; }
             success = this.removePMIframe(iframes[i]) && success;
         }
         return success;
@@ -556,10 +556,14 @@ function PMClass() {
         for(var i = 0; i<hashArr.length; i++){
             if(typeof hashArr[i] === "undefined" || hashArr[i] === ""){ continue; }
             var currentHashArr = hashArr[i].split('=');
-            this.hashObj[currentHashArr[0]] = (currentHashArr.length > 1?decodeURIComponent(currentHashArr[1]):decodeURIComponent(currentHashArr[0]));
+            this.hashObj[currentHashArr[0]] = (currentHashArr.length > 1?
+                decodeURIComponent(currentHashArr[1]):
+                decodeURIComponent(currentHashArr[0]));
             try{ //try to parse a JSON object, if it fails then it must be text.
                 this.hashObj[currentHashArr[0]] = JSON.parse(this.hashObj[currentHashArr[0]]);
-            }catch(e){}
+            }catch(e){
+                // do nothing
+            }
         }
 
         //variable cleanup
@@ -604,4 +608,4 @@ function PMClass() {
     return this;
 }
 
-var PM = new PMClass();
+export const PM = new PMClass();
