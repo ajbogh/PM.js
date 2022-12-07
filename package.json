@@ -1,7 +1,6 @@
 {
   "name": "@ajbogh/pm.js",
   "version": "1.0.1-alpha.0",
-  "private": false,
   "scripts": {
     "build_old": "gulp build",
     "lint": "eslint .",
